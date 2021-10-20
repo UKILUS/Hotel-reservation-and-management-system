@@ -1,2 +1,2 @@
-# Hotel-reservation-and-management-system
+# TUZI
 3000
