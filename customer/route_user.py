@@ -192,6 +192,72 @@ def get_status_by_room(room):
         return "No reservation"
     return "No reservation"
 
+@user.route("/room_book", methods=['GET'], endpoint='room_book')
+@wapper
+def room_book():
+    cid = request.args.get("id")
+    user = session.get('user')
+    userinfo = get_user_by_username(user)
+    room = get_room_by_id(cid)
+    print(room)
+    category = get_category_by_id(room["category_id"])
+    print(category)
+    return render_template('room_book.html', user=user, room=room, category=category, userinfo=userinfo)
+
+
+@user.route("/add_order", methods=['POST'], endpoint='add_order')
+@wapper
+def add_order():
+    print(request.form)
+    username = request.form.get("username")
+    room_id = request.form.get("room_id")
+    user_id = request.form.get("user_id")
+    category_id = request.form.get("category_id")
+    mobile = request.form.get("mobile")
+    begin = request.form.get("begin")
+    end = request.form.get("end")
+    weak = request.form.get("weak")
+    need_weak = request.form.get("need_weak")
+
+    user = session.get('user')
+    userinfo = get_user_by_username(user)
+    room = get_room_by_id(room_id)
+    category = get_category_by_id(category_id)
+
+    if need_weak==None:
+        need_weak = ""
+    else:
+        if need_weak == "on" and (weak == "" or weak == None):
+            return render_template('errinfo.html', user=user,msg="您选择了叫醒服务器却没有选择时间，返回重新填写！" )
+    data = [
+            (user_id, room_id, category_id, str(category["price"].split(".")[0]), weak, need_weak, str(get_stamp_by_time(begin + " 12:00:00")),str(get_stamp_by_time(end + " 12:00:00")),username,mobile,category["name"],room["descp"],),
+        ]
+    insert_order(data)
+    orderid = max_order_id();
+
+    print(category["price"])
+    ding = str(float(category["price"]) * 0.2)
+    money_data = [
+        (orderid, ding, "1", "1",),
+    ]
+    insert_order_money(money_data)
+    print(orderid)
+    return render_template('money_confirm.html', user=user, category=category, userinfo=userinfo, begin=begin, end=end, need_weak=need_weak, weak=weak, orderid=orderid, ding=ding)
+
+
+
+@user.route("/delay_time", methods=['GET'], endpoint='delay_time')
+@wapper
+def delay_time():
+    rid = request.args.get("rid")
+    user = session.get('user')
+    userinfo = get_user_by_username(user)
+    order = get_order_by_id(rid)
+    order["begin"] = get_time_by_stamp(order["begin_time"])
+    order["end"] = get_time_by_stamp(order["end_time"])
+    return render_template('delay_time.html', user=user, order=order, userinfo=userinfo)
+
+
 @user.route("/all_rooms", methods=['GET', 'POST'], endpoint='all_rooms')
 def all_rooms():
     searchkey = request.args.get("searchkey", "")

@@ -7,7 +7,6 @@ dbconfig = {'host': 'localhost',
             'passwd': '19991119',
             'db': 'tuzi-hotel', }
 
-# LHZ
 # For login(sign-in) Page
 def login_select_email(email):
     with UseDatebase(dbconfig) as cur:
@@ -20,7 +19,6 @@ def login_select_email(email):
         # return the string
         return res
 
-# LHZ
 # For login(sign-in) Page
 def login_select_username(username, is_admin):
     with UseDatebase(dbconfig) as cur:
@@ -231,4 +229,261 @@ def get_room_by_id(id):
         return get_dict_by_title(res, title)
 
 
+def insert_order(data):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        print(data)
+        sql = 'insert into `order`(user_id, room_id, category_id, price, weak_time, need_weak, begin_time, end_time, username, mobile, category_name, room_descp ) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);'
+        print(sql)
+        try:
+            # Execute SQL statement
+            res = cur.executemany(sql, data)
+
+        except Exception as e:
+            print(e)
+            print("wrong database cur")
+            return False
+        else:
+
+            print("success!")
+            return True
+
+def insert_order_money(data):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        print(data)
+        sql = 'insert into `order_money`(order_id, money, source, status) values(%s,%s,%s,%s);'
+        print(sql)
+        try:
+            # Execute SQL statement
+            res = cur.executemany(sql, data)
+
+        except Exception as e:
+            print(e)
+            print("wrong database cur")
+            return False
+        else:
+
+            print("success!")
+            return True
+
+def max_order_id():
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = 'SELECT MAX(id) from `order`'
+        print(sql)
+        try:
+            # Execute SQL statement
+            res = cur.execute(sql)
+            last = cur.fetchall()
+            last = last[0][0]
+
+        except Exception as e:
+            print(e)
+            print("wrong database cur")
+            return -1
+        else:
+            if last>0:
+                return last
+            else:
+                return -1
+
+
+def get_order_by_id(id):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "SELECT * FROM `order` WHERE id=\"" + id + "\""
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
+        # return the string
+        return get_dict_by_title(res, title)
+
+def get_all_order_by_user(user_id):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "SELECT * FROM `order` WHERE user_id=\"" + user_id + "\" order by id desc"
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
+        # return the string
+        return get_list_by_title(res, title)
+
+def get_order_ex_sum_by_id(id):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "SELECT SUM(price) FROM `order_extra` WHERE order_id=\"" + id + "\""
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        print(res)
+        if res[0][0] == None:
+            return 0
+        else:
+            print("订单" + id + "的额外费用" +  res[0][0])
+            # return the string
+            return res[0][0]
+
+def get_order_money_sum_by_id(id):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "SELECT SUM(money) FROM `order_money` WHERE order_id=\"" + id + "\" and source=1"
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        print(res)
+        if res[0][0] == None:
+            return 0
+        else:
+            print("定金" + id + "的额外费用" + str(res[0][0]))
+            # return the string
+            return str(res[0][0])
+
+
+def update_order_status_by_id(id, mystatus):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+
+        print("hahah")
+        print(id)
+        print(mystatus)
+        sql = "UPDATE `order` SET status="+mystatus+" WHERE id=\"" + id + "\""
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        # return the string
+        return True
+
+def update_order_status_2_by_id(id):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+
+        sql = "UPDATE `order` SET status=2 WHERE id=\"" + id + "\""
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        # return the string
+        return True
+
+def update_end_time_by_id(id, end):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "UPDATE `order` SET end_time="+end+" WHERE id=\"" + id + "\""
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        # return the string
+        return True
+
+def update_order_delete_by_id(id, stamp):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "UPDATE `order` SET status=-1, end_time="+stamp+"  WHERE id=\"" + id + "\""
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        # return the string
+        return True
+
+def update_order_money_delete_by_id(id):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "UPDATE `order_money` SET status=-1  WHERE order_id=\"" + id + "\""
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        # return the string
+        return True
+
+def get_status1_by_room(id, current):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "SELECT * FROM `order` WHERE begin_time > " + current + " and room_id=" + id
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
+        # return the string
+        return get_list_by_title(res, title)
+
+def get_can_order_status_by_room(id):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "SELECT * FROM `order` WHERE status=1 and room_id=" + id
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
+        # return the string
+        return get_list_by_title(res, title)
+
+def get_status2_by_room(id, current):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "SELECT * FROM `order` WHERE begin_time < " + current + " and end_time > "+current +" and room_id=" + id
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
+        # return the string
+        return get_list_by_title(res, title)
+
+def get_status3_by_room(id, current):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "SELECT * FROM `order` WHERE end_time < " + current + " and room_id=" + id
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
+        # return the string
+        return get_list_by_title(res, title)
+
+
+
+def update_user__by_id(uid, mobile, email):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+
+        print("hahah")
+        print(uid)
+        print(mobile)
+        print(email)
+        sql = "UPDATE `user_info` SET mobile='"+mobile+"',email='"+email+"' WHERE id=\"" + uid + "\""
+
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        # return the string
+        return True
 # ==========================================================================
