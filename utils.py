@@ -8,6 +8,18 @@ import datetime
 import calendar
 import re
 
+def get_zh_by_status(status):
+    status_dict = {
+        "-1":"subscription cancellation",
+        "1":"expire",
+        "2":"Check-out has been paid",
+        "3":"Has been in",
+        "4":"Within two days of absence",
+        "5":"have booked",
+        "6":"Other states"
+    }
+    return status_dict[status]
+
 def md5vale(key):
     input_name = hashlib.md5()
     input_name.update(key.encode("utf-8"))
@@ -78,6 +90,58 @@ def get_status_by_time(begin, end, now, status):
         return "have booked"
     else:
         return "state of termination"
+
+def get_int_status_by_time(begin, end, now, status):
+    if status=="-1" or status == "2":
+        return status
+    begin = int(begin)
+    end = int(end)
+    now = int(now)
+    print("----------------")
+    print(begin)
+    print(get_time_by_stamp(begin))
+    print(get_time_by_stamp(end))
+    print(get_time_by_stamp(now))
+    if now >= end :
+        return "1"
+    elif now >= begin and now <= end:
+        return "3"
+    elif now <=begin and now >= begin - (2*24*60*60):
+        return "4"
+    elif now <= begin - (2*24*60*60):
+        return "5"
+    else:
+        return "6"
+
+def get_status_by_room(begin, end, now, status):
+    if status=="-1":
+        return "subscription cancellation"
+    if status=="2":
+        return "Check-out has been paid"
+    begin = int(begin)
+    end = int(end)
+    now = int(now)
+    if now >= end :
+        return "expire"
+    elif now >= begin and now <= end:
+        return "Has been in"
+    elif now <=begin and now >= begin - (2*24*60*60):
+        return "Is to stay in"
+    elif now <= begin - (2*24*60*60):
+        return "have booked"
+    else:
+        return "state of termination"
+
+def get_juese(admin):
+    if admin == "0":
+        return "domestic consumer"
+    elif admin == "1":
+        return "adm"
+    elif admin == "2":
+        return "BOSS"
+    else:
+        return "other"
+
 def getBetweenMonth(begin_date):
     date_list = []
     begin_date = datetime.datetime.strptime(begin_date, "%Y-%m-%d")

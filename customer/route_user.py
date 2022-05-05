@@ -126,7 +126,7 @@ def index():
 def user_info():
     user = session.get('user')
     user_info = get_user_by_username(user)
-
+    user_info["juese"] = get_juese(user_info["is_admin"])
     return render_template('user_info.html', user_info=user_info, user=user)
 
 
@@ -257,7 +257,8 @@ def order():
         update_order_status_by_id(cid, "1")
     order["begin"] = get_time_by_stamp(order["begin_time"])
     order["end"] = get_time_by_stamp(order["end_time"])
-
+    order["status"] = get_int_status_by_time(order["begin_time"], order["end_time"], get_now_stamp(),order["status"] )
+    order["status_info"] = get_zh_by_status(order["status"])
     category = get_category_by_id(order["category_id"])
     print(order)
     return render_template('one_order.html', user=user, order=order, category=category,userinfo=userinfo)
@@ -271,7 +272,9 @@ def my_all_order():
     for i in range(len(orders)):
         orders[i]["begin"] = get_time_by_stamp(orders[i]["begin_time"])
         orders[i]["end"] = get_time_by_stamp(orders[i]["end_time"])
-
+        orders[i]["status"] = get_int_status_by_time(orders[i]["begin_time"], orders[i]["end_time"], get_now_stamp(),orders[i]["status"])
+        print(orders[i]["status"])
+        orders[i]["status_info"] = get_zh_by_status(orders[i]["status"])
     print(orders)
     return render_template('my_all_order.html', orders=orders, user=user)
 
@@ -297,7 +300,7 @@ def delete_order():
         order = get_order_by_id(rid)
         order["begin"] = get_time_by_stamp(order["begin_time"])
         order["end"] = get_time_by_stamp(order["end_time"])
-
+        order["status"] = get_int_status_by_time(order["begin_time"], order["end_time"], get_now_stamp(),order["status"])
         ding = str(float(order["price"]) * 0.2)
         return render_template('delete_order.html', user=user, order=order, userinfo=userinfo, ding=ding)
     if request.method == "POST":
@@ -305,7 +308,8 @@ def delete_order():
         order = get_order_by_id(oid)
         order["begin"] = get_time_by_stamp(order["begin_time"])
         order["end"] = get_time_by_stamp(order["end_time"])
-
+        order["status"] = get_int_status_by_time(order["begin_time"], order["end_time"], get_now_stamp(),
+                                                 order["status"])
         if(order["status"]) != "4":
             update_order_money_delete_by_id(oid)
         update_order_delete_by_id(oid, get_now_stamp())
@@ -414,7 +418,7 @@ def logout():
 def modify_user():
     user = session.get('user')
     user_info = get_user_by_username(user)
-    
+    user_info["juese"] = get_juese(user_info["is_admin"])
     if request.method == 'POST':
         uid = request.form['uid']
         email = request.form['email']
