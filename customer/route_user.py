@@ -1,6 +1,6 @@
 #-*- coding:utf-8 -*-
-# author: 梁欣雨
-# datetime:2021/1/4 18:02
+# author: liangxinyu
+# datetime:2022/1/4 18:02
 
 from flask import Blueprint, request, render_template, session, redirect
 from .db_user import *
@@ -136,6 +136,102 @@ def company():
     return render_template('company.html', user=user)
 
 
+@user.route("/category", methods=['GET'], endpoint='category')
+@wapper
+def category():
+    cid = request.args.get("id")
+    searchkey = request.args.get("searchkey", "")
+    mtype = request.args.get("mtype", "")
+    user = session.get('user')
+    category = get_category_by_id(cid)
+
+    rooms = []
+    if searchkey == "":
+        rooms = get_room_by_categoryid(cid)
+    else:
+        if mtype == "chao":
+            rooms = get_category_room_by_chao_search(searchkey, cid)
+        elif mtype == "chuang":
+            if searchkey == "Have a window":
+                rooms = get_category_room_by_chuang("1", cid)
+            else:
+                rooms = get_category_room_by_chuang("0", cid)
+    print(category)
+
+    for i in range(len(rooms)):
+        order = get_can_order_status_by_room(rooms[i]["id"])
+        if len(order) > 0:
+            rooms[i]["status"] = "1"
+        else:
+            rooms[i]["status"] = "0"
+        print(rooms[i]["status"])
+    print(rooms)
+    return render_template('category.html', user=user, category=category, rooms=rooms, cid=cid)
+
+
+
+def get_status_by_room(room):
+    current = get_now_stamp()
+    status1 = get_status1_by_room(room["id"], current)
+    print(status1)
+    if len(status1) > 0:
+        if status1[0]["status"] == "-1":
+            return "No reservation"
+        elif status1[0]["status"] == "2":
+            return "No reservation"
+        return "Booked but not checked in"
+    status2 = get_status2_by_room(room["id"], current)
+    if len(status2) > 0:
+        if status2[0]["status"] == "-1":
+            return "No reservation"
+        elif status2[0]["status"] == "2":
+            return "No reservation"
+        return "Has been in"
+    status3 = get_status3_by_room(room["id"], current)
+    if len(status3) > 0:
+        return "No reservation"
+    return "No reservation"
+
+@user.route("/all_rooms", methods=['GET', 'POST'], endpoint='all_rooms')
+def all_rooms():
+    searchkey = request.args.get("searchkey", "")
+    mtype = request.args.get("mtype", "")
+    user = session.get('user')
+    all_categories = get_all_category()
+    all_rooms = []
+    if searchkey == "":
+        for cat in all_categories:
+            rooms = get_room_by_categoryid(cat["id"])
+            for room in rooms:
+                room["cate_img"] = cat["img"]
+                room["cate_name"] = cat["name"]
+                room["cate_price"] = cat["price"]
+                all_rooms.append(room)
+    else:
+        if mtype == "chao":
+            rooms = get_room_by_chao_search(searchkey)
+        elif mtype == "chuang":
+            if searchkey == "Have a window":
+                rooms = get_room_by_chuang("1")
+            else:
+                rooms = get_room_by_chuang("0")
+        else:
+            cate = get_category_by_price(searchkey)
+            if cate != {}:
+                rooms = get_room_by_categoryid(cate["id"])
+            else:
+                rooms = []
+        for room in rooms:
+            cat = get_category_by_id(room["category_id"])
+            room["cate_img"] = cat["img"]
+            room["cate_name"] = cat["name"]
+            room["cate_price"] = cat["price"]
+            all_rooms.append(room)
+    print(all_rooms)
+    for i in range(len(all_rooms)):
+        all_rooms[i]["status"] = get_status_by_room(all_rooms[i])
+
+    return render_template('all_rooms.html', user=user, all_rooms=all_rooms)
 
 @user.route('/logout', methods=['GET'], endpoint='logout')
 @wapper

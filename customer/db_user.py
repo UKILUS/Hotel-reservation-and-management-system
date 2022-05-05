@@ -7,7 +7,7 @@ dbconfig = {'host': 'localhost',
             'passwd': '19991119',
             'db': 'tuzi-hotel', }
 
-#
+# LHZ
 # For login(sign-in) Page
 def login_select_email(email):
     with UseDatebase(dbconfig) as cur:
@@ -20,7 +20,7 @@ def login_select_email(email):
         # return the string
         return res
 
-#
+# LHZ
 # For login(sign-in) Page
 def login_select_username(username, is_admin):
     with UseDatebase(dbconfig) as cur:

@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block css %}
+    <link href="/static/css/pricing.css" rel="stylesheet">
+{% endblock %}
+{% block content %}
+        <div class="container">
+         <div class="row">
+            <div class="col-md-3">
+
+              <div class="alert alert-primary" role="alert">
+                Toward the screening
+                <p style="margin: 10px">
+                  <a href="/category?mtype=chao&searchkey=East&id={{ cid }}">East</a>
+
+                </p>
+                <p style="margin: 10px">
+                  <a href="/category?mtype=chao&searchkey=South&id={{ cid }}">South</a>
+
+                </p>
+                <p style="margin: 10px">
+                  <a href="/category?mtype=chao&searchkey=West&id={{ cid }}">West</a>
+
+                </p>
+                <p style="margin: 10px">
+                  <a href="/category?mtype=chao&searchkey=North&id={{ cid }}">North</a>
+
+                </p>
+              </div>
+              <div class="alert alert-primary" role="alert">
+                The window screening
+                <p style="margin: 10px">
+                  <a href="/category?mtype=chuang&searchkey=Have a window&id={{ cid }}">Have a window</a>
+
+                </p>
+                <p style="margin: 10px">
+                  <a href="/category?mtype=chuang&searchkey=Not have a window&id={{ cid }}">Not have a window</a>
+
+                </p>
+              </div>
+            </div>
+            <div class="col-md-9">
+              <div class="row">
+                <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+          <h1 class="display-4">{{ category.name }}</h1>
+          <p class="lead">{{ category.descp }}</p>
+          <p class="lead">{{ category.price }}￡</p>
+          <p class="lead"><img src="{{ category.img }}" style="width: 300px;height: 200px"></p>
+        </div>
+                <div class="container">
+          <div class="card-deck mb-3 text-center">
+              {% for room in rooms %}
+                <div class="card mb-4 shadow-sm">
+                      <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">{{ room.name }}</h4>
+                      </div>
+                      <div class="card-body">
+                        <h1 class="card-title pricing-card-title" style="">orientation：{{ room.orientation }}</h1>
+                        <ul class="list-unstyled mt-3 mb-4">
+                            {% if room.have_windows == "1" %}
+                                <li>Have a windows</li>
+                            {% else %}
+                                <li>Not have a windows</li>
+                            {% endif %}
+                            <li>Prise：{{ category.price }}RMB</li>
+                            <li>Describe：{{ room.descp }}</li>
+                        </ul>
+                          {% if room.status=="0" %}
+                            <a type="button" class="btn btn-lg btn-block btn-outline-primary" href="/room_book?id={{ room.id }}">Reservations now</a>
+                          {% else %}
+                            <p class="btn btn-lg">Has been scheduled</p>
+                          {% endif %}
+
+                      </div>
+                    </div>
+              {% endfor %}
+
+          </div>
+        </div>
+              </div>
+            </div>
+
+          </div>
+            </div>
+
+
+
+
+{% endblock %}

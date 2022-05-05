@@ -23,6 +23,84 @@ def get_user(session, redirect):
     return user
 
 
+def get_list_by_title(inner_data, title):
+    last_list = []
+    for datas in inner_data:
+        tmp_dict = {}
+        for i in range(len(datas)):
+            tmp_dict[title[i]] = str(datas[i])
+        last_list.append(tmp_dict)
+    return last_list
+
+
+def get_dict_by_title(inner_data, title):
+    tmp_dict = {}
+    for datas in inner_data:
+        print(title)
+        print(datas)
+        for i in range(len(datas)):
+            tmp_dict[title[i]] = str(datas[i])
+    print(tmp_dict)
+    return tmp_dict
+
+
+def get_stamp_by_time(mytime):
+    timeArray = time.strptime(mytime, "%Y-%m-%d %H:%M:%S")
+    timeStamp = int(time.mktime(timeArray))
+    return timeStamp
+
+
+def get_time_by_stamp(mystamp):
+    timeArray = time.localtime(int(mystamp))
+    otherStyleTime = time.strftime("%Y-%m-%d %H:%M:%S", timeArray)
+    return otherStyleTime
+
+
+def get_now_stamp():
+    return str(int(time.time()))
+
+
+def get_status_by_time(begin, end, now, status):
+    if status=="-1":
+        return "subscription cancellation"
+    if status=="2":
+        return "Check-out has been paid"
+    begin = int(begin)
+    end = int(end)
+    now = int(now)
+    if now >= end :
+        return "expire"
+    elif now >= begin and now <= end:
+        return "Has been in"
+    elif now <=begin and now >= begin - (2*24*60*60):
+        return "Is to stay in"
+    elif now <= begin - (2*24*60*60):
+        return "have booked"
+    else:
+        return "state of termination"
+def getBetweenMonth(begin_date):
+    date_list = []
+    begin_date = datetime.datetime.strptime(begin_date, "%Y-%m-%d")
+    end_date = datetime.datetime.strptime(time.strftime('%Y-%m-%d', time.localtime(time.time())), "%Y-%m-%d")
+    print(begin_date)
+    print(end_date)
+    while begin_date <= end_date:
+        date_str = begin_date.strftime("%Y-%m-01 %H:%M:%S")
+        date_list.append(date_str)
+        begin_date = add_months(begin_date,1)
+    return date_list
+
+def add_months(dt,months):
+    month = dt.month - 1 + months
+    print(month)
+    year = int(dt.year + month / 12)
+    print(year)
+    month = int(month % 12) + 1
+    print(month)
+    day = min(dt.day, calendar.monthrange(year, month)[1])
+    return dt.replace(year=year, month=month, day=day)
+
+
 
 def is_phone(phone):
     phone_pat = re.compile('1\d{10}')
