@@ -8,33 +8,24 @@
     <div class="row">
       <div class="col-md-8 blog-main">
         <h3 class="pb-4 mb-4 font-italic border-bottom">
-          退订房间
+          Add the length of stay
         </h3>
 
         <div class="blog-post">
-          <h2 class="blog-post-title">Unbooking information</h2>
+          <h2 class="blog-post-title">check-in information</h2>
           <p class="blog-post-meta">Name：{{ order.username }}</p>
           <p class="blog-post-meta">Telephone：{{ order.mobile }}</p>
           <p class="blog-post-meta">Time：{{ order.begin }}--{{ order.end }}</a></p>
           <p class="blog-post-meta">Room：{{ order.category_name }}</p>
-            {% if order.status == "4" %}
-                <p class="blog-post-meta text-danger">Note your time within two days to unsubscribe, do not refund the deposit ！！！！！</p>
-            {% endif %}
-
           <hr>
 
-          <form method="post" action="/delete_order">
+          <form method="post" action="delay_order">
                       <div class="form-group">
-                        <label for="ding">refund amount</label>
+                        <label for="weak">Add the length of stay</label>
                         <input type="hidden" class="form-control" name="oid" value="{{ order.id }}">
-                        {% if order.status == "4" %}
-                            <input type="text" class="form-control" id="ding1" value="0RMB" disabled>
-                        {% else %}
-                            <input type="text" class="form-control" id="ding" value="{{ ding }}RMB" disabled>
-                        {% endif %}
-
+                        <input type="text" class="form-control" id="weak" name="delay">
                       </div>
-                      <button type="submit" class="btn btn-primary">submit</button>
+                      <button type="submit" class="btn btn-primary">submitsssssssssssssssssss</button>
                     </form>
 
         </div><!-- /.blog-post -->

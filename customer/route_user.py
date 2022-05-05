@@ -245,6 +245,36 @@ def add_order():
     return render_template('money_confirm.html', user=user, category=category, userinfo=userinfo, begin=begin, end=end, need_weak=need_weak, weak=weak, orderid=orderid, ding=ding)
 
 
+@user.route("/order", methods=['GET'], endpoint='order')
+@wapper
+def order():
+    cid = request.args.get("id")
+    status = request.args.get("status", "")
+    user = session.get('user')
+    userinfo = get_user_by_username(user)
+    order = get_order_by_id(cid)
+    if status != "":
+        update_order_status_by_id(cid, "1")
+    order["begin"] = get_time_by_stamp(order["begin_time"])
+    order["end"] = get_time_by_stamp(order["end_time"])
+
+    category = get_category_by_id(order["category_id"])
+    print(order)
+    return render_template('one_order.html', user=user, order=order, category=category,userinfo=userinfo)
+
+@user.route("/my_all_order", methods=['GET'], endpoint='my_all_order')
+@wapper
+def my_all_order():
+    user = session.get('user')
+    userinfo = get_user_by_username(user)
+    orders = get_all_order_by_user(userinfo["id"])
+    for i in range(len(orders)):
+        orders[i]["begin"] = get_time_by_stamp(orders[i]["begin_time"])
+        orders[i]["end"] = get_time_by_stamp(orders[i]["end_time"])
+
+    print(orders)
+    return render_template('my_all_order.html', orders=orders, user=user)
+
 
 @user.route("/delay_time", methods=['GET'], endpoint='delay_time')
 @wapper
@@ -256,6 +286,80 @@ def delay_time():
     order["begin"] = get_time_by_stamp(order["begin_time"])
     order["end"] = get_time_by_stamp(order["end_time"])
     return render_template('delay_time.html', user=user, order=order, userinfo=userinfo)
+
+@user.route("/delete_order", methods=['GET', 'POST'], endpoint='delete_order')
+@wapper
+def delete_order():
+    if request.method == "GET":
+        rid = request.args.get("rid")
+        user = session.get('user')
+        userinfo = get_user_by_username(user)
+        order = get_order_by_id(rid)
+        order["begin"] = get_time_by_stamp(order["begin_time"])
+        order["end"] = get_time_by_stamp(order["end_time"])
+
+        ding = str(float(order["price"]) * 0.2)
+        return render_template('delete_order.html', user=user, order=order, userinfo=userinfo, ding=ding)
+    if request.method == "POST":
+        oid = request.form.get("oid")
+        order = get_order_by_id(oid)
+        order["begin"] = get_time_by_stamp(order["begin_time"])
+        order["end"] = get_time_by_stamp(order["end_time"])
+
+        if(order["status"]) != "4":
+            update_order_money_delete_by_id(oid)
+        update_order_delete_by_id(oid, get_now_stamp())
+        return redirect("/order?id=" + oid)
+
+
+@user.route("/delay_order", methods=['POST'], endpoint='delay_order')
+@wapper
+def delay_order():
+    print(request.form)
+    oid = request.form.get("oid")
+    delay = request.form.get("delay")
+    delay_stamp = str(get_stamp_by_time(delay + " 12:00:00"))
+    update_end_time_by_id(oid, delay_stamp)
+    return redirect("/order?id=" + oid)
+
+
+@user.route("/pay_order", methods=['GET', 'POST'], endpoint='pay_order')
+@wapper
+def pay_order():
+    if request.method == "GET":
+        rid = request.args.get("rid")
+        user = session.get('user')
+        userinfo = get_user_by_username(user)
+        order = get_order_by_id(rid)
+        order["begin"] = get_time_by_stamp(order["begin_time"])
+        order["end"] = get_time_by_stamp(order["end_time"])
+        ding = str(float(order["price"]) * 0.2)
+        extra = get_order_ex_sum_by_id(rid)
+        order_money = get_order_money_sum_by_id(rid)
+        print(float(order["price"]))
+        print(float(ding))
+        print(float(extra))
+        last_money = float(order["price"]) - float(ding) + float(extra)
+        print(last_money)
+        return render_template('pay_order.html', user=user, order=order, userinfo=userinfo, ding=ding, extra=extra, order_money=order_money, last_money=last_money)
+
+@user.route("/pay_confirm", methods=['GET'], endpoint='pay_confirm')
+@wapper
+def pay_confirm():
+    print(request.get_data())
+    oid = request.args.get("rid")
+    print("============")
+    print(oid)
+    order = get_order_by_id(oid)
+    update_order_status_2_by_id(order["id"])
+
+    print(order["price"])
+    ding = str(float(order["price"]) * 0.8)
+    money_data = [
+        (order["id"], ding, "2", "1",),
+    ]
+    insert_order_money(money_data)
+    return redirect("/order?id=" + oid)
 
 
 @user.route("/all_rooms", methods=['GET', 'POST'], endpoint='all_rooms')
@@ -304,4 +408,34 @@ def all_rooms():
 def logout():
     session['user'] = request.form.get('')
     return redirect('/login')
+
+
+@user.route('/modify_user', methods=['GET', 'POST'])
+def modify_user():
+    user = session.get('user')
+    user_info = get_user_by_username(user)
+    
+    if request.method == 'POST':
+        uid = request.form['uid']
+        email = request.form['email']
+        mobile = request.form['mobile']
+
+        if is_phone(mobile) == False:
+            return render_template('user_info.html', msg="手机号格式错误！", user_info=user_info, user=user)
+        if is_email(email) == False:
+            return render_template('user_info.html', msg="email格式错误！", user_info=user_info, user=user)
+        user_id = get_user_by_id(uid)
+        if user_id == {}:
+            return render_template('user_info.html', msg="用户不存在", user_info=user_info, user=user)
+
+        if email == "" or len(email) < 6 :
+            return render_template('user_info.html', msg="邮箱必须大于6位", user_info=user_info, user=user)
+
+        if user_id["email"] != email:
+            user = get_user_by_email(email)
+            if user != {}:
+                return render_template('user_info.html', msg="email已存在！", user_info=user_info, user=user)
+        update_user__by_id(uid, mobile, email)
+
+        return redirect('/user_info')
 

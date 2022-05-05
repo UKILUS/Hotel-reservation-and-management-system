@@ -22,7 +22,7 @@
                 <div class="media text-muted pt-3">
                   <form method="post" action="add_order">
                       <div class="form-group">
-                        <label for="roomStyle"> </label>
+                        <label for="roomStyle"> 姓名</label>
                         <input type="text" class="form-control" id="username" name="username" aria-describedby="roomStyle" value="{{ user }}">
                       </div>
                       <div class="form-group">
@@ -86,16 +86,17 @@
                 function getTime(){
                     return new Date().getFullYear() + "-" + new Date().getMonth()+1 + "-" + new Date().getDate() + " " + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds()
                 }
+            //执行一个laydate实例
             laydate.render({
-              elem: '#begin'
+              elem: '#begin' //指定元素
                 ,value: getDate()
             });
             laydate.render({
-              elem: '#end'
+              elem: '#end' //指定元素
                 ,value: getDate1()
             });
             laydate.render({
-              elem: '#weak'
+              elem: '#weak' //指定元素
                 ,type: 'datetime'
             });
             </script>
