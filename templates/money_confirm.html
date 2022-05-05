@@ -90,6 +90,19 @@
                 function getTime(){
                     return new Date().getFullYear() + "-" + new Date().getMonth()+1 + "-" + new Date().getDate() + " " + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds()
                 }
+            //执行一个laydate实例
+            laydate.render({
+              elem: '#begin' //指定元素
+                ,value: getDate()
+            });
+            laydate.render({
+              elem: '#end' //指定元素
+                ,value: getDate1()
+            });
+            laydate.render({
+              elem: '#weak' //指定元素
+                ,type: 'datetime'
+            });
             </script>
 
 {% endblock %}

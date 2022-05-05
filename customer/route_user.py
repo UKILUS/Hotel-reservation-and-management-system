@@ -58,7 +58,7 @@ def login():
                 else:
                     return redirect("/")
             else:
-                return render_template('login.html', msg="账号密码错误,请重新输入")
+                return render_template('login.html', msg="")
 
 
 @user.route('/register', methods=['GET', 'POST'])
@@ -78,17 +78,7 @@ def register():
         print(mobile)
 
         if len(password) < 3:
-            return render_template('register.html', msg="密码长度错误！")
-
-        if is_phone(mobile) ==  False:
-            return render_template('register.html', msg="手机号格式不正确")
-        if is_email(email) ==  False:
-            return render_template('register.html', msg="邮箱格式不正确")
-
-        if is_admin == "1" and code !="888888":
-            return render_template('register.html', msg="管理员特殊码错误")
-        if is_admin == "2" and code !="999999":
-            return render_template('register.html', msg="BOSS特殊码错误")
+            return render_template('register.html', msg="")
 
 
 
@@ -98,13 +88,13 @@ def register():
         print([0][0])
         print(len(user))
         if len(user) >0:
-            return render_template('register.html', msg="用户名重复,请重新输入")
+            return render_template('register.html', msg="")
         else:
             print("******")
             user = login_select_email(email)
             print(len(user))
             if len(user) > 0 :
-                return render_template('register.html', msg="email重复,请重新输入")
+                return render_template('register.html', msg="")
             else:
                 data = [
                     (username, email, mobile, md5vale(password), is_admin),
@@ -112,7 +102,7 @@ def register():
                 if insert_user(data):
                     return redirect('/login')
                 else:
-                    return render_template('register.html', msg="新建失败,请重新输入")
+                    return render_template('register.html', msg="")
 
 
 @user.route("/", methods=['GET', 'POST'], endpoint='index')
@@ -228,7 +218,7 @@ def add_order():
         need_weak = ""
     else:
         if need_weak == "on" and (weak == "" or weak == None):
-            return render_template('errinfo.html', user=user,msg="您选择了叫醒服务器却没有选择时间，返回重新填写！" )
+            return render_template('errinfo.html', user=user,msg="" )
     data = [
             (user_id, room_id, category_id, str(category["price"].split(".")[0]), weak, need_weak, str(get_stamp_by_time(begin + " 12:00:00")),str(get_stamp_by_time(end + " 12:00:00")),username,mobile,category["name"],room["descp"],),
         ]
@@ -425,20 +415,20 @@ def modify_user():
         mobile = request.form['mobile']
 
         if is_phone(mobile) == False:
-            return render_template('user_info.html', msg="手机号格式错误！", user_info=user_info, user=user)
+            return render_template('user_info.html', msg="", user_info=user_info, user=user)
         if is_email(email) == False:
-            return render_template('user_info.html', msg="email格式错误！", user_info=user_info, user=user)
+            return render_template('user_info.html', msg="", user_info=user_info, user=user)
         user_id = get_user_by_id(uid)
         if user_id == {}:
-            return render_template('user_info.html', msg="用户不存在", user_info=user_info, user=user)
+            return render_template('user_info.html', msg="", user_info=user_info, user=user)
 
         if email == "" or len(email) < 6 :
-            return render_template('user_info.html', msg="邮箱必须大于6位", user_info=user_info, user=user)
+            return render_template('user_info.html', msg="", user_info=user_info, user=user)
 
         if user_id["email"] != email:
             user = get_user_by_email(email)
             if user != {}:
-                return render_template('user_info.html', msg="email已存在！", user_info=user_info, user=user)
+                return render_template('user_info.html', msg="", user_info=user_info, user=user)
         update_user__by_id(uid, mobile, email)
 
         return redirect('/user_info')

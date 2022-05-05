@@ -181,4 +181,4 @@ def is_email(email):
 
 if __name__ == "__main__":
     print(is_email("46513@qq.com"))
-    print(is_phone("15010226955"))
+    print(is_phone("7706983948"))

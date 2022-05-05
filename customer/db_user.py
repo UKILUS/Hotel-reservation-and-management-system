@@ -315,39 +315,6 @@ def get_all_order_by_user(user_id):
         # return the string
         return get_list_by_title(res, title)
 
-def get_order_ex_sum_by_id(id):
-    with UseDatebase(dbconfig) as cur:
-        # Splicing and executing SQL statements
-        sql = "SELECT SUM(price) FROM `order_extra` WHERE order_id=\"" + id + "\""
-        print(sql)
-        # Execute SQL statement
-        cur.execute(sql)
-        # save search result in a variable and convert it to string
-        res = cur.fetchall()
-        print(res)
-        if res[0][0] == None:
-            return 0
-        else:
-            print("订单" + id + "的额外费用" +  res[0][0])
-            # return the string
-            return res[0][0]
-
-def get_order_money_sum_by_id(id):
-    with UseDatebase(dbconfig) as cur:
-        # Splicing and executing SQL statements
-        sql = "SELECT SUM(money) FROM `order_money` WHERE order_id=\"" + id + "\" and source=1"
-        print(sql)
-        # Execute SQL statement
-        cur.execute(sql)
-        # save search result in a variable and convert it to string
-        res = cur.fetchall()
-        print(res)
-        if res[0][0] == None:
-            return 0
-        else:
-            print("定金" + id + "的额外费用" + str(res[0][0]))
-            # return the string
-            return str(res[0][0])
 
 
 def update_order_status_by_id(id, mystatus):
