@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block css %}
+    <link href="/static/css/blog.css" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+<main role="main" class="container" style="margin-top: 30px">
+    <div class="row">
+      <div class="col-md-8 blog-main">
+        <h3 class="pb-4 mb-4 font-italic border-bottom">
+          Add the length of stay
+        </h3>
+
+        <div class="blog-post">
+          <h2 class="blog-post-title">check-in information</h2>
+          <p class="blog-post-meta">Name：{{ order.username }}</p>
+          <p class="blog-post-meta">Telephone：{{ order.mobile }}</p>
+          <p class="blog-post-meta">Time：{{ order.begin }}--{{ order.end }}</a></p>
+          <p class="blog-post-meta">Room：{{ order.category_name }}</p>
+          <hr>
+
+          <form method="post" action="delay_order">
+                      <div class="form-group">
+                        <label for="weak">Add the length of stay</label>
+                        <input type="hidden" class="form-control" name="oid" value="{{ order.id }}">
+                        <input type="text" class="form-control" id="weak" name="delay">
+                      </div>
+                      <button type="submit" class="btn btn-primary">submitsssssssssssssssssss</button>
+                    </form>
+
+        </div><!-- /.blog-post -->
+
+      </div>
+    </div>
+</main>
+<script src="/static/laydate/laydate.js"></script>
+            <script>
+                function getDate1(){
+                    var day3 = new Date();
+                    day3.setTime(day3.getTime()+24*60*60*1000);
+                    return new Date().getFullYear() + "-" + new Date().getMonth()+1 + "-" + day3.getDate()
+                }
+
+            laydate.render({
+              elem: '#weak' //指定元素
+                ,value: getDate1()
+            });
+
+</script>
+{% endblock %}

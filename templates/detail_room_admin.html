@@ -1,0 +1,42 @@
+{% extends 'admin_base.html' %}
+{% block content %}
+
+    <div class="row" style="margin: 30px">
+        <form method="post" action="/detail_room_admin" enctype="multipart/form-data">
+          <div class="form-group">
+            <label for="category_name">The name of the room</label>
+            <input type="text" class="form-control" id="category_name" name="category_name" value="{{ category.name }}">
+            <input type="hidden" name="category_id" value="{{ category.id }}">
+            <input type="hidden" name="room_id" value="{{ room.id }}">
+          </div>
+            <div class="form-group">
+            <label for="price">The price of the room</label>
+            <input type="text" class="form-control" id="price" name="price" value="{{ category.price }}">
+          </div>
+            <div class="form-group">
+            <label for="descp">The decrisp of the room</label>
+            <input type="text" class="form-control" id="descp" name="descp" value="{{ category.descp }}">
+          </div>
+            <div class="form-group">
+            <label for="category_img">The picture of the room</label>
+                <img src="{{ category.img }}" width="250px" height="150px" class="img-circle">
+            <input type="file" class="form-control" id="category_img" name="category_img">
+          </div>
+            <hr>
+            <div class="form-group">
+            <label for="room_name">room name</label>
+            <input type="text" class="form-control" id="room_name" name="room_name" value="{{ room.name }}">
+          </div>
+            <div class="form-group">
+            <label for="room_orientation">Building head</label>
+            <input type="text" class="form-control" id="room_orientation" name="room_orientation" value="{{ room.orientation }}">
+          </div>
+            <div class="form-group">
+            <label for="room_descp">Building decrisp</label>
+            <input type="text" class="form-control" id="room_descp" name="room_descp" value="{{ room.descp }}">
+          </div>
+          <button type="submit" class="btn btn-primary">change</button>
+        </form>
+    </div>
+
+{% endblock %}

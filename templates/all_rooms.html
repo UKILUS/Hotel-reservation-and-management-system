@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block css %}
+    <link href="/static/css/album.css" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <main role="main">
+
+      <div class="album py-5 bg-light">
+        <div class="container">
+
+          <div class="row">
+            <div class="col-md-3">
+              <div class="alert alert-primary" role="alert">
+                Price
+                <p style="margin: 10px">
+                  <a href="/all_rooms?mtype=jia&searchkey=36">36￡</a>
+                </p>
+                <p style="margin: 10px">
+                  <a href="/all_rooms?mtype=jia&searchkey=40">40￡</a>
+                </p>
+                <p style="margin: 10px">
+                  <a href="/all_rooms?mtype=jia&searchkey=45">45￡</a>
+                </p>
+                <p style="margin: 10px">
+                  <a href="/all_rooms?mtype=jia&searchkey=52">52￡</a>
+                </p>
+                <p style="margin: 10px">
+                  <a href="/all_rooms?mtype=jia&searchkey=65">65￡</a>
+                </p>
+              </div>
+              <div class="alert alert-primary" role="alert">
+                Way
+                <p style="margin: 10px">
+                  <a href="all_rooms?mtype=chao&searchkey=东">North</a>
+                </p>
+
+                <p style="margin: 10px">
+                  <a href="all_rooms?mtype=chao&searchkey=南">South</a>
+
+                </p>
+                <p style="margin: 10px">
+                  <a href="all_rooms?mtype=chao&searchkey=西">East</a>
+
+                </p>
+                <p style="margin: 10px">
+                  <a href="all_rooms?mtype=chao&searchkey=北">West</a>
+
+                </p>
+              </div>
+              <div class="alert alert-primary" role="alert">
+                Windows
+                <p style="margin: 10px">
+                  <a href="/all_rooms?mtype=chuang&searchkey=有窗">Have</a>
+
+                </p>
+                <p style="margin: 10px">
+                  <a href="/all_rooms?mtype=chuang&searchkey=无窗">No</a>
+
+                </p>
+              </div>
+
+            </div>
+            <div class="col-md-9">
+              <div class="row">
+                {% if all_rooms == [] %}
+                  <div>All room's have being reserve</div>
+                {% endif %}
+                {% for room in all_rooms %}
+                    <div class="col-md-4">
+                      <div class="card mb-4 shadow-sm">
+                        <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="{{ room.cate_img }}" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em"></text></img>
+                        <div class="card-body">
+                          <p class="card-text">{{ room.cate_name }} -- {{ room.name }}</p>
+                          <p class="card-text">{{ room.cate_price }}</p>
+                          <p class="card-text">{{ room.orientation }}</p>
+                          <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                              {% if room.status=="No reservation" %}
+                                <a type="button" class="btn btn-sm btn-outline-secondary btn-warning" href="/room_book?id={{ room.id }}">Reservations now</a>
+                              {% else %}
+                                <a type="button" class="btn btn-sm btn-outline-secondary" href="#">Has been scheduled</a>
+
+                              {% endif %}
+                              <!--<a type="button" class="btn btn-sm btn-outline-secondary" href="/room_book?id={{ room.id }}">预定</a>-->
+                            </div>
+                            <small class="text-muted">{{ room.descp }}</small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                {% endfor %}
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+{% endblock %}

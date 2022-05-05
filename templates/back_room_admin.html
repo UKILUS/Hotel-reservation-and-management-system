@@ -1,0 +1,31 @@
+{% extends 'admin_base.html' %}
+{% block content %}
+
+    <div class="row" style="margin-top: 30px">
+        <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Room name</th>
+                  <th scope="col">Type</th>
+                  <th scope="col">Finish time</th>
+                  <th scope="col">stuate</th>
+                  <th scope="col">Operation</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for order in orders %}
+                {% if order.show == "1" %}
+                    <tr>
+                      <th scope="row">{{ order.username }}</th>
+                      <td>{{ order.category_name }}</td>
+                      <td>{{ order.end }}</td>
+                      <td>{{ order.status_info }}</td>
+                      <td><a href="/need_back_admin?orderid={{ order.id }}">check-out</a></td>
+                    </tr>
+                {% endif %}
+              {% endfor %}
+              </tbody>
+            </table>
+    </div>
+
+{% endblock %}

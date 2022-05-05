@@ -1,0 +1,277 @@
+{% extends 'boss_base.html' %}
+{% block content %}
+
+    <!--<div class="row">-->
+        <!--<form method="get" action="/admin_index">-->
+              <!--<div class="form-group">-->
+                <!--<label for="search">搜索</label>-->
+                <!--<input type="text" class="form-control" id="search" name="search">-->
+              <!--</div>-->
+              <!--<button type="submit" class="btn btn-primary">Submit</button>-->
+            <!--</form>-->
+
+    <!--</div>-->
+    <div class="row" style="margin-top: 30px">
+        <table class="table">
+              <!--<thead>-->
+                <!--<tr>-->
+                  <!--<th scope="col">用户名</th>-->
+                  <!--<th scope="col">房型</th>-->
+                  <!--<th scope="col">入住时间</th>-->
+                  <!--<th scope="col">离开时间</th>-->
+                <!--</tr>-->
+              <!--</thead>-->
+              <!--<tbody>-->
+                <tr>
+                  <th scope="row">客房收入</th>
+                  <td>{{ kefang }}元</td>
+                </tr>
+            <tr>
+                  <th scope="row">定金收入</th>
+                  <td>{{ ding }}元</td>
+                </tr>
+            <tr>
+                  <th scope="row">日用品等其他收入</th>
+                  <td>{{ ex }}元</td>
+                </tr>
+            <tr>
+                  <th scope="row">总收入</th>
+                  <td>{{ total }}元</td>
+                </tr>
+              <!--{% for order in orders %}-->
+                <!--<tr>-->
+                  <!--<th scope="row">{{ order.username }}</th>-->
+                  <!--<td>{{ order.category_name }}</td>-->
+                  <!--<td>{{ order.begin }}</td>-->
+                  <!--<td>{{ order.end }}</td>-->
+                <!--</tr>-->
+              <!--{% endfor %}-->
+              </tbody>
+            </table>
+    </div>
+    <div class="row" style="margin-top: 30px">
+        <table class="table">
+                <tr>
+                  <th scope="row">入住最好</th>
+                  <td>{{ begin.room.name }}:{{ begin.room.descp }}</td>
+                </tr>
+            <tr>
+                  <th scope="row">入住最差</th>
+                  <td>{{ end.room.name }}:{{ end.room.descp }}</td>
+                </tr>
+
+              </tbody>
+            </table>
+    </div>
+
+    <div class="row">
+        <div id="shouru" style="width: 100%;height: 300px">
+
+        </div>
+    </div>
+    <div class="row">
+        <div id="day_count" style="width: 100%;height: 300px">
+            123
+        </div>
+    </div>
+    <div class="row">
+        <div id="day_shuliang" style="width: 100%;height: 300px">
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div id="room_count" style="width: 100%;height: 300px">
+
+        </div>
+    </div>
+
+
+<script src="/static/js/jquery-3.5.1.min.js"></script>
+<script src="/static/js/echarts.js"></script>
+<script>
+        $.ajax({
+        type: 'GET',
+        url: '/day_tongji',//发送请求
+        // contentType: 'application/json',
+        dataType: "json",
+        success: function (result) {
+            console.log(result.code);
+            if (result.code == 0) {
+                var echartsRecords1 = echarts.init(document.getElementById('day_count'), 'walden');
+                echartsRecords1.clear();
+                var optionRecords1 = {
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data: result.data.titleList
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {}
+                        }
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: result.data.xList
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: result.data.yList
+                };
+                echartsRecords1.setOption(optionRecords1);
+            } else {
+                var echartsRecords1 = echarts.init(document.getElementById('day_count'), 'walden');
+                echartsRecords1.clear();
+            }
+        }
+    });
+    $.ajax({
+        type: 'GET',
+        url: '/count_tongji',//发送请求
+        // contentType: 'application/json',
+        dataType: "json",
+        success: function (result) {
+            console.log(result.code);
+            if (result.code == 0) {
+                var echartsRecords1 = echarts.init(document.getElementById('day_shuliang'), 'walden');
+                echartsRecords1.clear();
+                var optionRecords1 = {
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data: result.data.titleList
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {}
+                        }
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: result.data.xList
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: result.data.yList
+                };
+                echartsRecords1.setOption(optionRecords1);
+            } else {
+                var echartsRecords1 = echarts.init(document.getElementById('day_shuliang'), 'walden');
+                echartsRecords1.clear();
+            }
+        }
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: '/room_tongji',//发送请求
+        // contentType: 'application/json',
+        dataType: "json",
+        success: function (result) {
+            console.log(result.code);
+            if (result.code == 0) {
+                var echartsRecords1 = echarts.init(document.getElementById('room_count'), 'walden');
+                echartsRecords1.clear();
+                var optionRecords1 = {
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    legend: {
+                        data: result.data.titleList
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {}
+                        }
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: result.data.xList
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: result.data.yList
+                };
+                echartsRecords1.setOption(optionRecords1);
+            } else {
+                var echartsRecords1 = echarts.init(document.getElementById('room_count'), 'walden');
+                echartsRecords1.clear();
+            }
+        }
+    });
+
+    $.ajax({
+        type: 'GET',
+        url: '/shouru_tongji',//发送请求
+        // contentType: 'application/json',
+        dataType: "json",
+        success: function (result) {
+            console.log(result.code);
+            if (result.code == 0) {
+                var echartsRecords1 = echarts.init(document.getElementById('shouru'), 'walden');
+                echartsRecords1.clear();
+                var option = {
+                        title: {
+                            text: 'Composition of total income',
+                            subtext: 'Composition of total income',
+                            left: 'center'
+                        },
+                        tooltip: {
+                            trigger: 'item'
+                        },
+                        legend: {
+                            orient: 'vertical',
+                            left: 'left',
+                        },
+                        series: [
+                            {
+                                name: 'Composition of total income',
+                                type: 'pie',
+                                radius: '50%',
+                                data: result.data,
+                                emphasis: {
+                                    itemStyle: {
+                                        shadowBlur: 10,
+                                        shadowOffsetX: 0,
+                                        shadowColor: 'rgba(0, 0, 0, 0.5)'
+                                    }
+                                }
+                            }
+                        ]
+                    };
+                echartsRecords1.setOption(option);
+            } else {
+                var echartsRecords1 = echarts.init(document.getElementById('shouru'), 'walden');
+                echartsRecords1.clear();
+            }
+        }
+    });
+</script>
+{% endblock %}
