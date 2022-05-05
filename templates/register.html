@@ -47,8 +47,8 @@
     <label for="mobile" class="sr-only">mobile</label>
     <input type="mobile" id="mobile" class="form-control" placeholder="mobile" name="mobile" required>
     <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password" required>
-
+    <input autocomplete="off" type="text" id="inputPassword" class="form-control" placeholder="Password" name="password">
+    <span id="info"></span>
     <label for="code" class="sr-only">special code</label>
     <input type="text" id="code" class="form-control" placeholder="admin special code" name="code">
     <div class="form-group">
@@ -69,5 +69,51 @@
     {% endif %}
     <p class="mt-5 mb-3 text-muted">&copy; tuzi</p>
   </form>
+  <script>
+    function isBig(str) {
+      for (var i in str) {
+        var asc = str.charCodeAt(i);
+        if (asc >= 65 && asc <= 90 ) {
+          return true;
+        }
+      }
+      return false;
+    }
+    function isSmall(str) {
+      for (var i in str) {
+        var asc = str.charCodeAt(i);
+        if ( asc >= 97 && asc <= 122) {
+          return true;
+        }
+      }
+      return false;
+    }
+    function isNum(str) {
+      for (var i in str) {
+        num = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+        if (i in num) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    $("#inputPassword").bind("input propertychange",function () {
+      var key = $('#inputPassword').val()
+      console.log(key)
+      if(isBig(key) && isSmall(key) && isNum(key) && key.length > 6){
+        console.log("000")
+        $('#info').removeClass()
+        $('#info').addClass("badge badge-primary")
+        $('#info').text("strong password!")
+        // $('#info').val("weak password!")
+      }else{
+        console.log("111")
+        $('#info').addClass("badge badge-danger")
+        $('#info').text("weak password!")
+        // $('#info').html("strong password!")
+      }
+    })
+  </script>
 </body>
 </html>
