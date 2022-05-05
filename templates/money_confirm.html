@@ -13,7 +13,7 @@
                 </div>
               </div>
               <div class="my-3 p-3 bg-white rounded shadow-sm">
-                <h6 class="border-bottom border-gray pb-2 mb-0">请填写信息</h6>
+                <h6 class="border-bottom border-gray pb-2 mb-0">Please fill in the information carefully</h6>
                 <div class="media text-muted pt-3">
                   <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2001/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
                   <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
@@ -34,14 +34,17 @@
                         <input type="text" class="form-control" id="roomStyle" aria-describedby="roomStyle" disabled value="{{ category.name }}" name="category_name">
                       </div>
                       <div class="form-group">
-                        <label for="begin">The check-in time</label>
+                        <label>The check-in time</label>
                           <div class="row">
                             <div class="col">
-                              <input type="text" class="form-control" name="begin" id="begin" value="{{ begin }}" disabled>
+                              <input type="text" class="form-control" value="{{begin}}" disabled>
                             </div>
                               -
                             <div class="col">
-                              <input type="text" class="form-control" name="end" id="end" value="end" disabled>
+                              <input type="text" class="form-control" value="{{end}}" disabled>
+                            </div>
+                              <div class="col">
+                              <input type="text" class="form-control" name="end" id="days" value="{{count_days}}" disabled>
                             </div>
                           </div>
                         <small id="emailHelp" class="form-text text-muted">Check-in time is 12:00 on the day of departure and departure time is 12:00 on the day of departure.</small>
@@ -90,17 +93,17 @@
                 function getTime(){
                     return new Date().getFullYear() + "-" + new Date().getMonth()+1 + "-" + new Date().getDate() + " " + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds()
                 }
-            //执行一个laydate实例
+            // laydate real case
             laydate.render({
-              elem: '#begin' //指定元素
+              elem: '#begin'
                 ,value: getDate()
             });
             laydate.render({
-              elem: '#end' //指定元素
+              elem: '#end'
                 ,value: getDate1()
             });
             laydate.render({
-              elem: '#weak' //指定元素
+              elem: '#weak'
                 ,type: 'datetime'
             });
             </script>

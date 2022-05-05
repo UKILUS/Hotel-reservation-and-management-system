@@ -11,24 +11,24 @@
                 <strong class="d-inline-block mb-2 text-primary">Tuzi-Hotel</strong>
                 <h3 class="mb-0">Type：{{ order.category_name }}</h3>
                 <div class="mb-1 text-muted">Userinfo：{{ order.username }} - {{ order.mobile }}</div>
-                <p class="card-text mb-auto">The room information：{{ order.room_descp }}</p>
+                <p class="card-text mb-auto">The room information：0{{order.room_id}} - {{ order.room_descp }}</p>
                 <p class="card-text mb-auto">Price of the room：{{ order.price }}RMB</p>
                 <p class="card-text mb-auto">The check-in time：{{ order.begin }} - {{ order.end }}</p>
                 <p class="card-text mb-auto">Room status：{{ order.status_info }}</p>
               </div>
               <div class="col-auto d-none d-lg-block">
               </div>
+
             </div>
             {% if order.status == "3" %}
               <a class="btn btn-primary" href="/delay_time?rid={{ order.id }}">Increase stay time</a>
             {% elif order.status == "4" or order.status == "5" %}
               <a class="btn btn-primary" href="/delete_order?rid={{ order.id }}">Unsubscribe</a>
             {% elif order.status == "1" %}
-              <a class="btn btn-primary" href="/pay_order?rid={{ order.id }}">Payment</a>
+              <a class="btn btn-primary" href="/#">Please check at the Front Desk</a>
             {% else %}
               <a class="btn btn-primary" href="/">Complete Return to Home Page</a>
             {% endif %}
-
 
           </div>
         </div>

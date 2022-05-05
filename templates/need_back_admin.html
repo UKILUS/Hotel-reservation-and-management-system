@@ -1,7 +1,7 @@
 {% extends 'admin_base.html' %}
 {% block content %}
     <div class="row" style="margin: 80px">
-      <p class="text text-danger">Order information：{{ order.category_name }}-->{{ order.price }}NCY-->{{ order.end }}离店->离店后重新可预订</p></div>
+      <p class="text text-danger">Order information：{{ order.category_name }}-->{{ order.price }}RMB-->{{ order.end }}Leave the hotel->You can rebook after you leave the hotel</p></div>
     <div class="row" style="margin: 80px">
 
         <form action="/need_back_admin" method="post">
@@ -9,7 +9,7 @@
           {% for key in order_ex %}
             <!--{{ key }}'s value is {{ order_ex[key]}}-->
             <div class="form-group row">
-                <label for="{{ key }}" class="col-sm-4 col-form-label">{{ order_ex[key].zh }}({{ order_ex[key].price }}元/个)</label>
+                <label for="{{ key }}" class="col-sm-4 col-form-label">{{ order_ex[key].zh }}({{ order_ex[key].price }}RMB/One)</label>
                 <div class="col-sm-8">
                   <input type="number" class="form-control" id="{{ key }}" value="0" name="{{ key }}">
                 </div>

@@ -4,6 +4,7 @@ from utils import *
 
 dbconfig = {'host': 'localhost',
             'user': 'root',
+            # 'passwd': '19991119',
             'passwd': '19991119',
             'db': 'tuzi-hotel', }
 
@@ -18,6 +19,7 @@ def login_select_email(email):
         res = cur.fetchall()
         # return the string
         return res
+
 
 # For login(sign-in) Page
 def login_select_username(username, is_admin):
@@ -305,7 +307,7 @@ def get_order_by_id(id):
 def get_all_order_by_user(user_id):
     with UseDatebase(dbconfig) as cur:
         # Splicing and executing SQL statements
-        sql = "SELECT * FROM `order` WHERE user_id=\"" + user_id + "\" order by id desc"
+        sql = "SELECT * FROM `order` WHERE user_id=\"" + user_id + "\" order by status asc"
         print(sql)
         # Execute SQL statement
         cur.execute(sql)
@@ -315,6 +317,40 @@ def get_all_order_by_user(user_id):
         # return the string
         return get_list_by_title(res, title)
 
+
+def get_order_ex_sum_by_id(id):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "SELECT SUM(price) FROM `order_extra` WHERE order_id=\"" + id + "\""
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        print(res)
+        if res[0][0] == None:
+            return 0
+        else:
+            print("order" + id + "extra price" +  res[0][0])
+            # return the string
+            return res[0][0]
+
+def get_order_money_sum_by_id(id):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "SELECT SUM(money) FROM `order_money` WHERE order_id=\"" + id + "\" and source=1"
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        print(res)
+        if res[0][0] == None:
+            return 0
+        else:
+            print("定金" + id + "的额外费用" + str(res[0][0]))
+            # return the string
+            return str(res[0][0])
 
 
 def update_order_status_by_id(id, mystatus):
@@ -358,6 +394,19 @@ def update_end_time_by_id(id, end):
         # return the string
         return True
 
+
+def update_money_by_id(id, money):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "UPDATE `order_money` SET money="+money+" WHERE source=2 and status=1 and order_id=\"" + id + "\""
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        # return the string
+        return True
+
 def update_order_delete_by_id(id, stamp):
     with UseDatebase(dbconfig) as cur:
         # Splicing and executing SQL statements
@@ -374,6 +423,18 @@ def update_order_money_delete_by_id(id):
     with UseDatebase(dbconfig) as cur:
         # Splicing and executing SQL statements
         sql = "UPDATE `order_money` SET status=-1  WHERE order_id=\"" + id + "\""
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        # return the string
+        return True
+
+def update_order_money_ding_by_id(yuding,id):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "UPDATE `order_money` SET money="+ yuding +"  WHERE order_id=\"" + id + "\" and source=2 and status=1"
         print(sql)
         # Execute SQL statement
         cur.execute(sql)
@@ -434,6 +495,19 @@ def get_status3_by_room(id, current):
         # return the string
         return get_list_by_title(res, title)
 
+def get_money_by_id(oid):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "SELECT * FROM `order_money` WHERE source=2 and status=1 and order_id ="+ oid
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        title = ["id", "order_id", "money", "source", "statys"]
+        # return the string
+        return get_list_by_title(res, title)
+
 
 
 def update_user__by_id(uid, mobile, email):
@@ -453,4 +527,5 @@ def update_user__by_id(uid, mobile, email):
         res = cur.fetchall()
         # return the string
         return True
+
 # ==========================================================================

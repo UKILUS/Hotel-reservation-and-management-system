@@ -9,6 +9,7 @@ import calendar
 import re
 
 def get_zh_by_status(status):
+    #-1 Cancelled 2 Paying and Checked out 1 Due 3 Checked in 4 Not checked in within 2 days 5 Reserved 6 Other status
     status_dict = {
         "-1":"subscription cancellation",
         "1":"expire",
@@ -92,6 +93,7 @@ def get_status_by_time(begin, end, now, status):
         return "state of termination"
 
 def get_int_status_by_time(begin, end, now, status):
+    #-1 Cancelled 2 Paying and Checked out 1 Due 3 Checked in 4 Not checked in within 2 days 5 Reserved Not checked in 6 Other status
     if status=="-1" or status == "2":
         return status
     begin = int(begin)
@@ -177,7 +179,8 @@ def is_email(email):
     if re.match(r'[0-9a-zA-Z_]{0,19}@qq.com', email):
         return True
     else:
-        return False
+        get_int_status_by_time
+
 
 if __name__ == "__main__":
     print(is_email("46513@qq.com"))

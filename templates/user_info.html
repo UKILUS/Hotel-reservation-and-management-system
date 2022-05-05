@@ -8,7 +8,7 @@
     </div><!-- /.row -->
     <div class="row">
           <div class="col-md-offset-4 col-lg-4" style="margin-left: 40%">
-            <img class="bd-placeholder-img rounded-circle" width="140" height="140" src="/static/img/touxiang.png" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140"><title>{{ user_info.username }}</title><rect width="100%" height="100%" fill="#777"/>
+            <img class="bd-placeholder-img rounded-circle" width="140" height="140" src="/static/img/login.png" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 140x140"><title>{{ user_info.username }}</title><rect width="100%" height="100%" fill="#777"/>
             <h2>Username：{{ user_info.username }}</h2>
               <p>Role: {{ user_info.juese }}</p>
               <form method="post" action="/modify_user">
@@ -21,8 +21,9 @@
                   <label for="pwd">Telephone:</label>
                   <input type="text" class="form-control" id="pwd" name="mobile" value="{{ user_info.mobile }}" disabled>
                 </div>
+
                   <button type="button" class="btn btn-info" onclick="show()">modification</button>
-                  <button type="submit" class="btn btn-primary">submit</button>
+                  <button type="submit" class="btn btn-primary" onclick="">submit</button>
               </form>
 
           </div>

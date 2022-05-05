@@ -2,8 +2,10 @@ import pymysql
 from db_use import UseDatebase
 from utils import *
 
+#Connecting to a database
 dbconfig = {'host': 'localhost',
             'user': 'root',
+            # 'passwd': '19991119',
             'passwd': '19991119',
             'db': 'tuzi-hotel', }
 
@@ -102,7 +104,7 @@ def get_user_by_username(username):
 def get_all_room():
     with UseDatebase(dbconfig) as cur:
         # Splicing and executing SQL statements
-        sql = "SELECT * FROM `room`"
+        sql = "SELECT * FROM `room` order by id"
         print(sql)
         # Execute SQL statement
         cur.execute(sql)
@@ -266,6 +268,48 @@ def get_all_kefang():
         # return the string
         return res
 
+
+def get_all_kefang_by_date(date):
+    with UseDatebase(dbconfig) as cur:
+        date_arr = date.split(" - ")
+        f = '%Y-%m-%d %H:%M:%S'
+        start_date = date_arr[0] + " 12:00:00"
+        end_date = date_arr[1] + " 12:00:00"
+        start_time = datetime.datetime.strptime(start_date, f).timestamp()
+        end_time = datetime.datetime.strptime(end_date, f).timestamp()
+        # Splicing and executing SQL statements
+        sql = "SELECT SUM(om.`money`) FROM `order_money` om LEFT JOIN `order` o ON o.id=om.order_id WHERE om.source=2 and om.status=1 AND o.end_time >= {} AND o.end_time <= {}"
+        sql = sql.format(start_time, end_time)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        # title = ["id", "order_id", "money", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
+        # return the string
+        return res
+
+
+def get_all_ding_by_date(date):
+    with UseDatebase(dbconfig) as cur:
+        date_arr = date.split(" - ")
+        f = '%Y-%m-%d %H:%M:%S'
+        start_date = date_arr[0] + " 12:00:00"
+        end_date = date_arr[1] + " 12:00:00"
+        start_time = datetime.datetime.strptime(start_date, f).timestamp()
+        end_time = datetime.datetime.strptime(end_date, f).timestamp()
+        # Splicing and executing SQL statements
+        sql = "SELECT SUM(om.`money`) FROM `order_money` om LEFT JOIN `order` o ON o.id=om.order_id WHERE om.source=1 and om.status=1 AND o.end_time >= {} AND o.end_time <= {}"
+        sql = sql.format(start_time, end_time)
+        # Splicing and executing SQL statements
+        # sql = "SELECT SUM(`money`) FROM `order_money` WHERE source=1 and status=1"
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        # title = ["id", "order_id", "money", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
+        # return the string
+        return res
+
 def get_all_ding():
     with UseDatebase(dbconfig) as cur:
         # Splicing and executing SQL statements
@@ -278,6 +322,28 @@ def get_all_ding():
         # title = ["id", "order_id", "money", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
         # return the string
         return res
+
+
+def get_all_ex_by_date(date):
+    with UseDatebase(dbconfig) as cur:
+        date_arr = date.split(" - ")
+        f = '%Y-%m-%d %H:%M:%S'
+        start_date = date_arr[0] + " 12:00:00"
+        end_date = date_arr[1] + " 12:00:00"
+        start_time = datetime.datetime.strptime(start_date, f).timestamp()
+        end_time = datetime.datetime.strptime(end_date, f).timestamp()
+        # Splicing and executing SQL statements
+        sql = "SELECT SUM(oe.`total`) FROM `order_extra` oe LEFT JOIN `order` o ON o.id=oe.order_id WHERE o.end_time >= {} AND o.end_time <= {}"
+        sql = sql.format(start_time, end_time)
+        # Splicing and executing SQL statements
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        # title = ["id", "order_id", "money", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
+        # return the string
+        return res
+
 
 def get_all_ex():
     with UseDatebase(dbconfig) as cur:

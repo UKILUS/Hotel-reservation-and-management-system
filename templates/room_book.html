@@ -22,19 +22,19 @@
                 <div class="media text-muted pt-3">
                   <form method="post" action="add_order">
                       <div class="form-group">
-                        <label for="roomStyle"> 姓名</label>
-                        <input type="text" class="form-control" id="username" name="username" aria-describedby="roomStyle" value="{{ user }}">
+                        <label for="roomStyle"> Name</label>
+                        <input type="text" class="form-control" id="username" name="username" aria-describedby="roomStyle" value="{{ user }}" disabled>
                       </div>
                       <div class="form-group">
-                        <label for="tele">电话</label>
+                        <label for="tele">Telephone</label>
                         <input type="hidden" name="room_id" value="{{ room.id }}">
                         <input type="hidden" name="user_id" value="{{ userinfo.id }}">
                         <input type="hidden" name="category_id" value="{{ category.id }}">
-                        <input type="text" class="form-control" id="tele" name="mobile" aria-describedby="tele" value="{{ userinfo.mobile }}">
+                        <input type="text" class="form-control" id="tele" name="mobile" aria-describedby="tele" value="{{ userinfo.mobile }}" disabled>
                       </div>
                       <div class="form-group">
                         <label for="roomStyle"> room type</label>
-                        <input type="text" class="form-control" id="roomStyle" aria-describedby="roomStyle" value="{{ category.name }}" name="category_name">
+                        <input type="text" class="form-control" id="roomStyle" aria-describedby="roomStyle" value="{{ category.name }}" name="category_name"  disabled>
                       </div>
                       <div class="form-group">
                         <label for="begin">The check-in time</label>
@@ -86,18 +86,22 @@
                 function getTime(){
                     return new Date().getFullYear() + "-" + new Date().getMonth()+1 + "-" + new Date().getDate() + " " + new Date().getHours() + ":" + new Date().getMinutes() + ":" + new Date().getSeconds()
                 }
-            //执行一个laydate实例
+            //lydate
             laydate.render({
-              elem: '#begin' //指定元素
+              elem: '#begin'
                 ,value: getDate()
+                , min: getDate()
+
             });
             laydate.render({
-              elem: '#end' //指定元素
+              elem: '#end'
                 ,value: getDate1()
+                , min: getDate1()
             });
             laydate.render({
-              elem: '#weak' //指定元素
+              elem: '#weak'
                 ,type: 'datetime'
+                , min: '2020-11-25'
             });
             </script>
             {% if msg %}

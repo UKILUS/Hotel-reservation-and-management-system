@@ -8,6 +8,7 @@
                   <th scope="col">Type</th>
                   <th scope="col">Room</th>
                   <th scope="col">Status</th>
+                    <th scope="col"> </th>
                 </tr>
               </thead>
               <tbody>
@@ -15,9 +16,16 @@
                 <tr>
                   <th scope="row">{{ room.category.name }}</th>
                   <td>{{ room.name }}</td>
-                  <td>{{ room.status }}</td>
+
+                    {% if room.status=="No reservation" %}
+                    <td bgcolor="#A6FFA6"></td>
+                    {% else %}
+                    <td bgcolor="#FFB5B5"></td>
+                     {% endif %}
+
                 </tr>
               {% endfor %}
+              <tr scope="row"> </tr>
               </tbody>
             </table>
     </div>

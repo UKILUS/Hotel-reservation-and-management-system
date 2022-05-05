@@ -11,7 +11,7 @@
               <strong class="d-inline-block mb-2 text-primary">Tuzi-Hotel</strong>
               <h3 class="mb-0">House type：{{ order.category_name }}</h3>
               <div class="mb-1 text-muted">Userinfo：{{ order.username }} - {{ order.mobile }}</div>
-              <p class="card-text mb-auto">The room information：{{ order.room_descp }}</p>
+              <p class="card-text mb-auto">The room information：0{{order.room_id}} - {{ order.room_descp }}</p>
               <p class="card-text mb-auto">Price of the room：{{ order.price }}RMB</p>
               <p class="card-text mb-auto">The check-in time：{{ order.begin }} - {{ order.end }}</p>
               <p class="card-text mb-auto">Room status：{{ order.status_info }}</p>
@@ -26,18 +26,18 @@
             {% elif order.status == "4" or order.status == "5" %}
               <a class="btn btn-primary" href="/delete_order?rid={{ order.id }}">Unsubscribe</a>
             {% elif order.status == "1" %}
-              <a class="btn btn-primary" href="/pay_order?rid={{ order.id }}">Payment</a>
+              <a class="btn btn-primary" href="/#">Please check at the Front Desk</a>
             {% else %}
               <a class="btn btn-primary" href="/">Complete Return to Home Page</a>
             {% endif %}
             <!--{% if order.status == "-1" or order.status == "2" %}-->
-              <!--<a class="btn btn-primary" href="/">完成返回首页</a>-->
+              <!--<a class="btn btn-primary" href="/"></a>-->
             <!--{% elif order.status == "0" or order.status == "1" %}-->
-              <!--<a class="btn btn-primary" href="/delay_time?rid={{ order.id }}">增加入住时长</a>-->
-              <!--<a class="btn btn-primary" href="/delete_order?rid={{ order.id }}">退订</a>-->
-              <!--<a class="btn btn-primary" href="/pay_order?rid={{ order.id }}">支付</a>-->
+              <!--<a class="btn btn-primary" href="/delay_time?rid={{ order.id }}"></a>-->
+              <!--<a class="btn btn-primary" href="/delete_order?rid={{ order.id }}"></a>-->
+              <!--<a class="btn btn-primary" href="/pay_order?rid={{ order.id }}"></a>-->
             <!--{% else %}-->
-              <!--<a class="btn btn-primary" href="/">完成返回首页</a>-->
+              <!--<a class="btn btn-primary" href="/"></a>-->
             <!--{% endif %}-->
 
 

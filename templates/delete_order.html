@@ -8,7 +8,7 @@
     <div class="row">
       <div class="col-md-8 blog-main">
         <h3 class="pb-4 mb-4 font-italic border-bottom">
-          退订房间
+          Unsubscribe room
         </h3>
 
         <div class="blog-post">
@@ -28,11 +28,10 @@
                         <label for="ding">refund amount</label>
                         <input type="hidden" class="form-control" name="oid" value="{{ order.id }}">
                         {% if order.status == "4" %}
-                            <input type="text" class="form-control" id="ding1" value="0RMB" disabled>
+                            <input type="text" class="form-control" id="ding1" value="{{ruzhu}}" disabled>
                         {% else %}
                             <input type="text" class="form-control" id="ding" value="{{ ding }}RMB" disabled>
                         {% endif %}
-
                       </div>
                       <button type="submit" class="btn btn-primary">submit</button>
                     </form>
@@ -51,7 +50,7 @@
                 }
 
             laydate.render({
-              elem: '#weak' //指定元素
+              elem: '#weak'
                 ,value: getDate1()
             });
 

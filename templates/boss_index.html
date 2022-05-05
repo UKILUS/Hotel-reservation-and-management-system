@@ -1,96 +1,90 @@
 {% extends 'boss_base.html' %}
 {% block content %}
-
-    <!--<div class="row">-->
-        <!--<form method="get" action="/admin_index">-->
-              <!--<div class="form-group">-->
-                <!--<label for="search">搜索</label>-->
-                <!--<input type="text" class="form-control" id="search" name="search">-->
-              <!--</div>-->
-              <!--<button type="submit" class="btn btn-primary">Submit</button>-->
-            <!--</form>-->
-
-    <!--</div>-->
-
-
-    <div class="row" style="margin-top: 30px">
-        <table class="table">
-              <!--<thead>-->
-                <!--<tr>-->
-                  <!--<th scope="col">用户名</th>-->
-                  <!--<th scope="col">房型</th>-->
-                  <!--<th scope="col">入住时间</th>-->
-                  <!--<th scope="col">离开时间</th>-->
-                <!--</tr>-->
-              <!--</thead>-->
-              <!--<tbody>-->
-                <tr>
-                  <th scope="row">客房收入</th>
-                  <td>{{ kefang }}元</td>
-                </tr>
-            <tr>
-                  <th scope="row">定金收入</th>
-                  <td>{{ ding }}元</td>
-                </tr>
-            <tr>
-                  <th scope="row">日用品等其他收入</th>
-                  <td>{{ ex }}元</td>
-                </tr>
-            <tr>
-                  <th scope="row">总收入</th>
-                  <td>{{ total }}元</td>
-                </tr>
-              <!--{% for order in orders %}-->
-                <!--<tr>-->
-                  <!--<th scope="row">{{ order.username }}</th>-->
-                  <!--<td>{{ order.category_name }}</td>-->
-                  <!--<td>{{ order.begin }}</td>-->
-                  <!--<td>{{ order.end }}</td>-->
-                <!--</tr>-->
-              <!--{% endfor %}-->
-              </tbody>
-            </table>
-    </div>
-    <div class="row" style="margin-top: 30px">
-        <table class="table">
-                <tr>
-                  <th scope="row">In the best</th>
-                  <td>
-                      {{ begin.room_id }}</td>
-                </tr>
-
-                <tr>
-                  <th scope="row">In the worst</th>
-                  <td>{{ end.room_id }}</td>
-                </tr>
-
-              </tbody>
-            </table>
-    </div>
-
-    <div class="row">
-        <div id="shouru" style="width: 100%;height: 300px">
-
+<div class="row">
+    <form method="get" class="form-inline" action="">
+        <div class="form-group">
+            <label for="search" style="margin-left: 5px;">To choose time</label>
+            <input type="text" class="form-control" id="search" value="{{search}}" name="search" autocomplete="off"
+                   style="margin-left: 5px;">
         </div>
+        <button type="submit" class="btn btn-primary" style="margin-left: 5px;">Search</button>
+    </form>
+</div>
+
+
+<div class="row" style="margin-top: 30px">
+    <table class="table">
+        <!--<thead>-->
+        <!--<tr>-->
+        <!--</tr>-->
+        <!--</thead>-->
+        <!--<tbody>-->
+        <tr>
+            <th scope="row">Room revenue</th>
+            <td>{{ kefang }}RMB</td>
+        </tr>
+        <tr>
+            <th scope="row">The deposit income</th>
+            <td>{{ ding }}RMB</td>
+        </tr>
+        <tr>
+            <th scope="row">Daily necessities and other income</th>
+            <td>{{ ex }}RMB</td>
+        </tr>
+        <tr>
+            <th scope="row">Total revenue</th>
+            <td>{{ total }}RMB</td>
+        </tr>
+        <!--{% for order in orders %}-->
+        <!--<tr>-->
+        <!--<th scope="row">{{ order.username }}</th>-->
+        <!--<td>{{ order.category_name }}</td>-->
+        <!--<td>{{ order.begin }}</td>-->
+        <!--<td>{{ order.end }}</td>-->
+        <!--</tr>-->
+        <!--{% endfor %}-->
+        </tbody>
+    </table>
+</div>
+<div class="row" style="margin-top: 30px">
+    <table class="table">
+        <tr>
+            <th scope="row">In the best</th>
+            <td>
+                {{ begin_room }}
+            </td>
+        </tr>
+
+        <tr>
+            <th scope="row">In the worst</th>
+            <td>{{ end_room }}</td>
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+
+<div class="row">
+    <div id="shouru" style="width: 100%;height: 300px">
+
     </div>
-    <div class="row">
-        <div id="day_count" style="width: 100%;height: 300px">
-            123
-        </div>
+</div>
+<div class="row">
+    <div id="day_count" style="width: 100%;height: 300px">
+
     </div>
-    <div class="row">
-        <div id="day_shuliang" style="width: 100%;height: 300px">
+</div>
+<div class="row">
+    <div id="day_shuliang" style="width: 100%;height: 300px">
 
-        </div>
     </div>
+</div>
 
-    <div class="row">
-        <div id="room_count" style="width: 100%;height: 300px">
+<div class="row">
+    <div id="room_count" style="width: 100%;height: 300px">
 
-        </div>
     </div>
-
-
+</div>
 
 
 {% endblock %}
