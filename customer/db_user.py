@@ -7,7 +7,7 @@ dbconfig = {'host': 'localhost',
             'passwd': '19991119',
             'db': 'tuzi-hotel', }
 
-# LHZ
+#
 # For login(sign-in) Page
 def login_select_email(email):
     with UseDatebase(dbconfig) as cur:
@@ -20,7 +20,7 @@ def login_select_email(email):
         # return the string
         return res
 
-# LHZ
+#
 # For login(sign-in) Page
 def login_select_username(username, is_admin):
     with UseDatebase(dbconfig) as cur:
@@ -60,6 +60,136 @@ def insert_user(data):
             print("success!")
             return True
 
+def get_all_category():
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "SELECT * FROM category"
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        title = ["id", "name", "img", "price", "descp"]
+
+        # return the string
+        return get_list_by_title(res, title)
+
+
+def get_category_by_id(id):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "SELECT * FROM category where id=" + id
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        title = ["id", "name", "img", "price", "descp"]
+        # return the string
+        return get_dict_by_title(res, title)
+
+def get_category_by_price(price):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "SELECT * FROM category where price=" + price
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        title = ["id", "name", "img", "price", "descp"]
+        # return the string
+        return get_dict_by_title(res, title)
+
+
+def get_room_by_categoryid(id):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "SELECT * FROM room where category_id=" + "\""+ id +"\"order by name asc"
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        title = ["id", "orientation", "have_windows", "have_book", "name", "category_id", "descp"]
+        # return the string
+        return get_list_by_title(res, title)
+
+def get_room_by_search(key):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "SELECT * FROM room where orientation=\"" + key + "\""
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        title = ["id", "orientation", "have_windows", "have_book", "name", "category_id", "descp"]
+        # return the string
+        return get_list_by_title(res, title)
+
+def get_room_by_chao_search(key):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "SELECT * FROM room where orientation=\"" + key + "\""
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        title = ["id", "orientation", "have_windows", "have_book", "name", "category_id", "descp"]
+        # return the string
+        return get_list_by_title(res, title)
+
+def get_category_room_by_chao_search(key, cid):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "SELECT * FROM room where orientation=\"" + key + "\"" + "and category_id=\"" + cid +"\""
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        title = ["id", "orientation", "have_windows", "have_book", "name", "category_id", "descp"]
+        # return the string
+        return get_list_by_title(res, title)
+
+def get_category_room_by_chuang(key, cid):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "SELECT * FROM room where have_windows=\"" + key + "\"" + "and category_id=\"" + cid +"\""
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        title = ["id", "orientation", "have_windows", "have_book", "name", "category_id", "descp"]
+        # return the string
+        return get_list_by_title(res, title)
+
+def get_room_by_chuang(key):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "SELECT * FROM room where have_windows=\"" + key + "\""
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        title = ["id", "orientation", "have_windows", "have_book", "name", "category_id", "descp"]
+        # return the string
+        return get_list_by_title(res, title)
+
+def get_user_by_username(username):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "SELECT * FROM user_info where username=\"" + username + "\""
+        print(username)
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        title = ["id", "username", "email", "password", "mobile", "is_admin"]
+        # return the string
+        return get_dict_by_title(res, title)
+
 def get_user_by_email(email):
     with UseDatebase(dbconfig) as cur:
         # Splicing and executing SQL statements
@@ -71,6 +201,32 @@ def get_user_by_email(email):
         # save search result in a variable and convert it to string
         res = cur.fetchall()
         title = ["id", "username", "email", "password", "mobile", "is_admin"]
+        # return the string
+        return get_dict_by_title(res, title)
+
+def get_user_by_id(id):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "SELECT * FROM user_info where id=\"" + id + "\""
+        print(id)
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        title = ["id", "username", "email", "password", "mobile", "is_admin"]
+        # return the string
+        return get_dict_by_title(res, title)
+
+def get_room_by_id(id):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "SELECT * FROM room where id=" + id
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        title = ["id", "orientation", "have_windows", "have_book", "name", "category_id", "descp"]
         # return the string
         return get_dict_by_title(res, title)
 

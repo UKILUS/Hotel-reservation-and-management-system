@@ -1,6 +1,6 @@
 #-*- coding:utf-8 -*-
-# author: liangxinyu
-# datetime:2022/1/4 18:02
+# author: 梁欣雨
+# datetime:2021/1/4 18:02
 
 from flask import Blueprint, request, render_template, session, redirect
 from .db_user import *
@@ -59,6 +59,60 @@ def login():
                     return redirect("/")
             else:
                 return render_template('login.html', msg="账号密码错误,请重新输入")
+
+
+@user.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'GET':
+        return render_template('register.html')
+    if request.method == 'POST':
+        username = request.form['username']
+        email = request.form['email']
+        password = request.form['password']
+        mobile = request.form['mobile']
+        is_admin = request.form['is_admin']
+        code = request.form['code']
+        print(username)
+        print(email)
+        print(password)
+        print(mobile)
+
+        if len(password) < 3:
+            return render_template('register.html', msg="密码长度错误！")
+
+        if is_phone(mobile) ==  False:
+            return render_template('register.html', msg="手机号格式不正确")
+        if is_email(email) ==  False:
+            return render_template('register.html', msg="邮箱格式不正确")
+
+        if is_admin == "1" and code !="888888":
+            return render_template('register.html', msg="管理员特殊码错误")
+        if is_admin == "2" and code !="999999":
+            return render_template('register.html', msg="BOSS特殊码错误")
+
+
+
+        user = login_select_username_reg(username)
+        print("============")
+        print(user)
+        print([0][0])
+        print(len(user))
+        if len(user) >0:
+            return render_template('register.html', msg="用户名重复,请重新输入")
+        else:
+            print("******")
+            user = login_select_email(email)
+            print(len(user))
+            if len(user) > 0 :
+                return render_template('register.html', msg="email重复,请重新输入")
+            else:
+                data = [
+                    (username, email, mobile, md5vale(password), is_admin),
+                ]
+                if insert_user(data):
+                    return redirect('/login')
+                else:
+                    return render_template('register.html', msg="新建失败,请重新输入")
 
 
 @user.route("/", methods=['GET', 'POST'], endpoint='index')
