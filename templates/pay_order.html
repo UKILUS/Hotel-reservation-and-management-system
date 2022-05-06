@@ -8,25 +8,31 @@
     <div class="row">
       <div class="col-md-8 blog-main">
         <h3 class="pb-4 mb-4 font-italic border-bottom">
-          Room to pay
+          Pay for the room
         </h3>
 
         <div class="blog-post">
           <h2 class="blog-post-title">The room information</h2>
-          <p class="blog-post-meta">Name：{{ order.username }}</p>
-          <p class="blog-post-meta">Telephone：{{ order.mobile }}</p>
-          <p class="blog-post-meta">Time：{{ order.begin }}--{{ order.end }}</a></p>
-          <p class="blog-post-meta">Room：{{ order.category_name }}</p>
+          <p class="blog-post-meta">Name:{{ order.username }}</p>
+          <p class="blog-post-meta">Telephone:{{ order.mobile }}</p>
+          <p class="blog-post-meta">Length:{{ order.begin }}--{{ order.end }}</a></p>
+          <p class="blog-post-meta">Room:{{ order.category_name }}</p>
           <hr>
 
-          <h2 class="blog-post-title">Pay</h2>
-          <p class="blog-post-meta">Guest room charges：{{ order.price }}</p>
-          <p class="blog-post-meta">Room use charges：{{ extra }}</p>
-          <p class="blog-post-meta">The deposit paid：{{ ding }}</p>
-          <p class="blog-post-meta">The amount to be paid：{{ last_money }}</a></p>
+          <h2 class="blog-post-title">spending</h2>
+          <p class="blog-post-meta text-info">Room rates:{{ order.price }}RMB - have consumption</p>
+          <p class="blog-post-meta text-info">Deposit:{{ ding }}RMB--Paid and refunded</p>
+          <p class="blog-post-meta text-warning">Room usage expenses:{{ extra }}RMB</p>
+          <p class="blog-post-meta text-warning">Extended room rate:{{ buquan }}RMB</p>
+          <p class="blog-post-meta text-danger">Final amount:{{ last_money }}RMB</a></p>
           <hr>
             <div>
-                <a class="btn btn-info" href="/pay_confirm?rid={{ order.id }}" >支付</a>
+              {% if last_money < 0 %}
+                <button class="btn btn-info" data-toggle="modal" data-target="#myModal">refund{{ last_money }}RMB</button>
+              {% else %}
+                <button class="btn btn-info" data-toggle="modal" data-target="#myModal">pay{{ last_money }}RMB</button>
+              {% endif %}
+
             </div>
 
         </div><!-- /.blog-post -->
@@ -34,6 +40,37 @@
       </div>
     </div>
 </main>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">支付确认</h4><!--弹窗的标题-->
+      </div>
+      <div class="modal-body"><!--弹窗的内容-->
+        <img src="/static/img/login.png" width="300px" height="300px">
+        <h2 class="blog-post-title">支出</h2>
+          <p class="blog-post-meta text-info">Room rates:{{ order.price }}RMB - have consumption</p>
+          <p class="blog-post-meta text-info">Deposit:{{ ding }}RMB--Paid and refunded</p>
+          <p class="blog-post-meta text-warning">Room usage expenses:{{ extra }}RMB</p>
+          <p class="blog-post-meta text-warning">Extended room rate:{{ buquan }}RMB</p>
+          <p class="blog-post-meta text-danger">Final amount:{{ last_money }}RMB</a></p>
+
+      </div>
+      <div class="modal-footer">
+
+        {% if last_money < 0 %}
+          <a class="btn btn-info" href="/pay_confirm?rid={{ order.id }}&mtype=1" >back{{ last_money }}RMB</a>
+        {% else %}
+          <a class="btn btn-info" href="/pay_confirm?rid={{ order.id }}&mtype=2" >payment{{ last_money }}RMB</a>
+        {% endif %}
+        <button type="button" class="btn btn-default" data-dismiss="modal">close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script src="/static/laydate/laydate.js"></script>
             <script>
                 function getDate1(){
@@ -43,7 +80,7 @@
                 }
 
             laydate.render({
-              elem: '#weak' //
+              elem: '#weak'
                 ,value: getDate1()
             });
 

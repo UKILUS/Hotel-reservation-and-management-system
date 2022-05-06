@@ -80,8 +80,8 @@ CREATE TABLE `order_money`  (
   `id` int(0) NOT NULL AUTO_INCREMENT,
   `order_id` int(0) NULL DEFAULT NULL,
   `money` int(0) NULL DEFAULT NULL,
-  `source` int(0) NULL DEFAULT 1 COMMENT '1是定金2是房费3是附加',
-  `status` int(0) NULL DEFAULT 0 COMMENT '0是未支付，1是已支付，-1是退款',
+  `source` int(0) NULL DEFAULT 1 COMMENT '',
+  `status` int(0) NULL DEFAULT 0 COMMENT '',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `order_id`(`order_id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 185 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Fixed;
@@ -92,12 +92,12 @@ CREATE TABLE `order_money`  (
 DROP TABLE IF EXISTS `room`;
 CREATE TABLE `room`  (
   `id` int(0) NOT NULL AUTO_INCREMENT,
-  `orientation` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '朝向',
+  `orientation` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '',
   `have_windows` tinyint(1) NOT NULL,
   `have_book` tinyint(1) UNSIGNED ZEROFILL NOT NULL,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `category_id` int(0) UNSIGNED NOT NULL,
-  `descp` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '描述',
+  `descp` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `category_id`(`category_id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 506 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -112,7 +112,7 @@ CREATE TABLE `user_info`  (
   `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `mobile` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `is_admin` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '0是普通1是admin2是boss',
+  `is_admin` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '0' COMMENT '',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = MyISAM AUTO_INCREMENT = 30 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 

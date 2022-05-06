@@ -253,6 +253,7 @@ def add_order():
     begin = request.form.get("begin")
     end = request.form.get("end")
     weak = request.form.get("weak")
+    need_weak = request.form.get("need_weak")
 
     AA=get_user_by_id(user_id)
     print(AA)
@@ -266,15 +267,12 @@ def add_order():
     print(mobile)
     print("**************************************************")
 
-    need_weak = request.form.get("need_weak")
-    # Define a variable, user, to store the user in the session
     user = session.get('user')
-    # Define the variable user_info to call and store all data about user
     userinfo = get_user_by_username(user)
-    # Define the variable room, call and assign all information about room
     room = get_room_by_id(room_id)
-    # Define the variable category to call and store data about categories
     category = get_category_by_id(category_id)
+
+
     #Determine if weak is empty
     if need_weak==None:
         need_weak = ""
@@ -283,51 +281,33 @@ def add_order():
             #The variable data type is defined as a dictionary to store the information that the user predetermined
             return render_template('errinfo.html', user=user,msg="You have selected the wake-up server but did not choose the time, return to fill in again!" )
     data = [
-            (user_id, room_id, category_id, str(category["price"].split(".")[0]), weak, need_weak, str(get_stamp_by_time(begin + " 12:00:00")),str(get_stamp_by_time(end + " 12:00:00")),username,mobile,category["name"],room["descp"],),
-        ]
-    #Inserts a method into the database
+        (user_id, room_id, category_id, str(category["price"].split(".")[0]), weak, need_weak,
+         str(get_stamp_by_time(begin + " 12:00:00")), str(get_stamp_by_time(end + " 12:00:00")), username, mobile,
+         category["name"], room["descp"], begin + " 12:00:00", end + " 12:00:00",),
+    ]
     insert_order(data)
     orderid = max_order_id();
-
     print(category["price"])
-    print(room["name"])
-    print(begin)
-    print(end)
-    #Define variable begin1 the time when the variable stores stamp type
-    begin1 = str(get_stamp_by_time(begin + " 12:00:00"))
-    # Define variable end1 the time when the variable stores stamp type
-    end1 = str(get_stamp_by_time(end + " 12:00:00"))
-    #Convert the two variables to an int
-    start1 = int(begin1)
-    end1 = int(end1)
-    print(type(start1))
-    #Define a variable, count_days, to store the number of days
-    count_days = int((end1 - start1) / (24 * 60 * 60))
-    print(count_days)
-
-    print(end1)
-    #Define the variable yuding, storing a predetermined amount of money
-    yuding=(float(category["price"]) * 0.2)
-    #Define the variable zhujin, how much it costs to save the house altogether
-    zhujin=((float(category["price"]))*count_days)
-    #Define the variable ding, storing the sum of yuding and zhujin
-    ding = (yuding+zhujin)
-
-    print(ding)
-    #Define the dictionary money_datay to store a predetermined amount
-    money_datay = [
-        (orderid, yuding, "1", "1",),
+    ding = str(float(category["price"]) * 0.2)
+    money_data = [
+        (orderid, ding, "1", "1",),
     ]
-    #Call the method, insert into the database
-    insert_order_money(money_datay)
-    #Define the dictionary money_datay to store a to stay in amount
-    money_dataz = [
-        (orderid, zhujin, "2", "1",),
+    insert_order_money(money_data)
+
+    day = float(get_stamp_by_time(end + " 12:00:00") - get_stamp_by_time(begin + " 12:00:00"))
+    print(day)
+    day_count = day/(60*60*24)
+    print(day_count)
+
+    room_money = str(float(category["price"]) * day_count)
+    money_data1 = [
+        (orderid, room_money, "2", "1",),
     ]
-    #Call the method, insert into the database
-    insert_order_money(money_dataz)
+    insert_order_money(money_data1)
+
     print(orderid)
-    return render_template('money_confirm.html',zhujin=zhujin,yuding=yuding,count_days=count_days, user=user, category=category, userinfo=userinfo, begin=begin, end=end, need_weak=need_weak, weak=weak, orderid=orderid, ding=ding)
+    return render_template('money_confirm.html', user=user, category=category, userinfo=userinfo, begin=begin, end=end, need_weak=need_weak, weak=weak, orderid=orderid, ding=ding, room_money=room_money)
+
 
 
 @user.route("/order", methods=['GET'], endpoint='order')
@@ -405,44 +385,29 @@ def delete_order():
         order["end"] = get_time_by_stamp(order["end_time"])
         order["status"] = get_int_status_by_time(order["begin_time"], order["end_time"], get_now_stamp(),order["status"])
         #Define the variable START and End to store the time value in the ORDER table
-        start = int(order["begin_time"])
-        end = int(order["end_time"])
-        # Define a variable, count_days, to store the number of days
-        count_days = int((end - start) / (24 * 60 * 60))
-        # Define the variable yuding, storing a predetermined amount of money
-        yuding = int(float(order["price"]) * 0.2)
-        # Define the variable zhujin, how much it costs to save the house altogether
-        ruzhu=int(float(order["price"]) * count_days)
-        # Define the variable ding, storing the sum of yuding and zhujin
-        ding = yuding+ruzhu
-
-        return render_template('delete_order.html', ruzhu=ruzhu,yuding=yuding,user=user, order=order, userinfo=userinfo, ding=ding)
+        ding = str(float(order["price"]) * 0.2)
+        day = float(float(order["begin_time"]) - float(order["end_time"]))
+        day_count = day / (60 * 60 * 24)
+        print(day_count)
+        room_money = str(float(order["price"]) * day_count)
+        total = ((float(order["price"]) * 0.2) + float(order["price"]))
+        return render_template('delete_order.html', total=total, user=user, order=order, userinfo=userinfo, ding=ding,
+                               room_money=room_money)
 
     if request.method == "POST":
-        #Define the variable OID to get the OID in the request
         oid = request.form.get("oid")
-        #Define the variable ORDER, call the get method to get, and store the order information
         order = get_order_by_id(oid)
-        # Define the dictionary ORDER to store the time status of the order by calling the method
         order["begin"] = get_time_by_stamp(order["begin_time"])
         order["end"] = get_time_by_stamp(order["end_time"])
         order["status"] = get_int_status_by_time(order["begin_time"], order["end_time"], get_now_stamp(),
                                                  order["status"])
-        #Define start, end to store time information of type int
-        start = int(order["begin_time"])
-        end = int(order["end_time"])
-        # Define a variable, count_days, to store the number of days
-        count_days = int((end - start) / (24 * 60 * 60))
-        yuding = str(float(order["price"]) * 0)
-        ruzhu = str(float(order["price"]) * count_days)
-
-        #Call a method to modify or delete an order
         if(order["status"]) != "4":
             update_order_money_delete_by_id(oid)
+        else:
+            update_order_money_delete_by_id_twoday(oid)
         update_order_delete_by_id(oid, get_now_stamp())
-        update_order_money_ding_by_id(yuding,oid)
-
         return redirect("/order?id=" + oid)
+
 
 
 @user.route("/delay_order", methods=['POST'], endpoint='delay_order')
@@ -482,39 +447,79 @@ def pay_order():
     if request.method == "GET":
         rid = request.args.get("rid")
         user = session.get('user')
-        # Define the variable user_info to call and store all data about user
         userinfo = get_user_by_username(user)
         order = get_order_by_id(rid)
+        print(order["order_end"])
+        first_end = get_stamp_by_time(order["order_end"])
+        print(first_end)
+        print(order["end_time"])
+        buquan = 0.0
+        if first_end != order["end_time"]:
+            cha = float(order["end_time"]) - float(first_end)
+            print(cha)
+            day = cha/(60*60*24)
+            print(day)
+            buquan = day * float(order["price"])
+        print(buquan)
+
         order["begin"] = get_time_by_stamp(order["begin_time"])
         order["end"] = get_time_by_stamp(order["end_time"])
-
-        ding = str(float(order["price"]) * 0.2)
+        ding = float(order["price"]) * 0.2
         extra = get_order_ex_sum_by_id(rid)
-        order_money = get_order_money_sum_by_id(rid)
-        print(float(order["price"]))
-        print(float(ding))
-        print(float(extra))
-        last_money = float(float(extra) - float(ding))
+
+        zhichu = float(extra) + buquan
+
+        # tuiqain = ding - zhichu
+        #
+        # print(tuiqain)
+
+        # order_money = get_order_money_sum_by_id(rid)
+        # print(float(order["price"]))
+        # print(float(ding))
+        # print(float(extra))
+        last_money = zhichu - ding
         print(last_money)
-        return render_template('pay_order.html', user=user, order=order, userinfo=userinfo, ding=ding, extra=extra, order_money=order_money, last_money=last_money)
+        print(last_money)
+        return render_template('pay_order.html', user=user, order=order, buquan=buquan, userinfo=userinfo, ding=ding, extra=extra, zhichu=zhichu, last_money=last_money)
 
 @user.route("/pay_confirm", methods=['GET'], endpoint='pay_confirm')
 @wapper
 def pay_confirm():
     print(request.get_data())
     oid = request.args.get("rid")
+    mtype = request.args.get("mtype")
     print("============")
     print(oid)
+    print(mtype)
     order = get_order_by_id(oid)
     update_order_status_2_by_id(order["id"])
 
-    print(order["price"])
-    ding = str(float(order["price"]) * 0.8)
-    money_data = [
-        (order["id"], ding, "2", "1",),
-    ]
-    insert_order_money(money_data)
+
+    first_end = get_stamp_by_time(order["order_end"])
+    buquan = 0.0
+    if first_end != order["end_time"]:
+        cha = float(order["end_time"]) - float(first_end)
+        day = cha/(60*60*24)
+        buquan = day * float(order["price"])
+    order["begin"] = get_time_by_stamp(order["begin_time"])
+    order["end"] = get_time_by_stamp(order["end_time"])
+    ding = float(order["price"]) * 0.2
+    extra = get_order_ex_sum_by_id(oid)
+
+    zhichu = float(extra) + buquan
+    last_money = zhichu - ding
+    print(last_money)
+
+    if last_money > 0:
+        money_data = [
+            (order["id"], last_money, "3", "1",),
+        ]
+        insert_order_money(money_data)
+    else:
+        print(int(ding+last_money))
+        update_order_money_by_id(oid, str(int(ding+last_money)))
     return redirect("/order?id=" + oid)
+
 
 
 @user.route("/all_rooms", methods=['GET', 'POST'], endpoint='all_rooms')

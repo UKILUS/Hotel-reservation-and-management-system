@@ -235,7 +235,7 @@ def insert_order(data):
     with UseDatebase(dbconfig) as cur:
         # Splicing and executing SQL statements
         print(data)
-        sql = 'insert into `order`(user_id, room_id, category_id, price, weak_time, need_weak, begin_time, end_time, username, mobile, category_name, room_descp ) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);'
+        sql = 'insert into `order`(user_id, room_id, category_id, price, weak_time, need_weak, begin_time, end_time, username, mobile, category_name, room_descp, order_begin, order_end) values(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s);'
         print(sql)
         try:
             # Execute SQL statement
@@ -300,7 +300,8 @@ def get_order_by_id(id):
         cur.execute(sql)
         # save search result in a variable and convert it to string
         res = cur.fetchall()
-        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
+        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time",
+                 "username", "mobile", "category_name", "room_descp", "status", "order_begin", "order_end"]
         # return the string
         return get_dict_by_title(res, title)
 
@@ -313,7 +314,8 @@ def get_all_order_by_user(user_id):
         cur.execute(sql)
         # save search result in a variable and convert it to string
         res = cur.fetchall()
-        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
+        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time",
+                 "username", "mobile", "category_name", "room_descp", "status", "order_begin", "order_end"]
         # return the string
         return get_list_by_title(res, title)
 
@@ -348,7 +350,7 @@ def get_order_money_sum_by_id(id):
         if res[0][0] == None:
             return 0
         else:
-            print("定金" + id + "的额外费用" + str(res[0][0]))
+            print("order" + id + "extra price" + str(res[0][0]))
             # return the string
             return str(res[0][0])
 
@@ -452,7 +454,8 @@ def get_status1_by_room(id, current):
         cur.execute(sql)
         # save search result in a variable and convert it to string
         res = cur.fetchall()
-        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
+        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time",
+                 "username", "mobile", "category_name", "room_descp", "status", "order_begin", "order_end"]
         # return the string
         return get_list_by_title(res, title)
 
@@ -491,7 +494,8 @@ def get_status3_by_room(id, current):
         cur.execute(sql)
         # save search result in a variable and convert it to string
         res = cur.fetchall()
-        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
+        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time",
+                 "username", "mobile", "category_name", "room_descp", "status", "order_begin", "order_end"]
         # return the string
         return get_list_by_title(res, title)
 
@@ -520,6 +524,32 @@ def update_user__by_id(uid, mobile, email):
         print(email)
         sql = "UPDATE `user_info` SET mobile='"+mobile+"',email='"+email+"' WHERE id=\"" + uid + "\""
 
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        # return the string
+        return True
+
+def update_order_money_delete_by_id_twoday(id):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+        sql = "UPDATE `order_money` SET status=-1  WHERE order_id=\"" + id + "\" and source=2"
+        print(sql)
+        # Execute SQL statement
+        cur.execute(sql)
+        # save search result in a variable and convert it to string
+        res = cur.fetchall()
+        # return the string
+        return True
+
+def update_order_money_by_id(id, money):
+    with UseDatebase(dbconfig) as cur:
+        # Splicing and executing SQL statements
+
+        print(money)
+        sql = "UPDATE `order_money` SET money="+money+" WHERE id=\"" + id + "\" and source=1"
         print(sql)
         # Execute SQL statement
         cur.execute(sql)
