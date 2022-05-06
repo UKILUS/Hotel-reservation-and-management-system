@@ -117,6 +117,7 @@ def get_float(str):
         return 0.0
 
 
+
 @admin.route("/admin_index", methods=['GET'], endpoint='admin_index')
 @admin_wapper
 def admin_index():
