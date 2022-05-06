@@ -244,7 +244,6 @@ def room_book():
 @wapper
 def add_order():
     print(request.form)
-    # Define the variable and assign the corresponding variable to the variable defined
     username = request.form.get("username")
     room_id = request.form.get("room_id")
     user_id = request.form.get("user_id")
@@ -255,38 +254,22 @@ def add_order():
     weak = request.form.get("weak")
     need_weak = request.form.get("need_weak")
 
-    AA=get_user_by_id(user_id)
-    print(AA)
-    mobile=AA["mobile"]
-    print(mobile)
-    username=AA["username"]
-
-    print("**************************************************")
-    print(user_id)
-    print(username)
-    print(mobile)
-    print("**************************************************")
-
     user = session.get('user')
     userinfo = get_user_by_username(user)
     room = get_room_by_id(room_id)
     category = get_category_by_id(category_id)
 
-
-    #Determine if weak is empty
     if need_weak==None:
         need_weak = ""
     else:
         if need_weak == "on" and (weak == "" or weak == None):
-            #The variable data type is defined as a dictionary to store the information that the user predetermined
-            return render_template('errinfo.html', user=user,msg="You have selected the wake-up server but did not choose the time, return to fill in again!" )
+            return render_template('errinfo.html', user=user,msg="" )
     data = [
-        (user_id, room_id, category_id, str(category["price"].split(".")[0]), weak, need_weak,
-         str(get_stamp_by_time(begin + " 12:00:00")), str(get_stamp_by_time(end + " 12:00:00")), username, mobile,
-         category["name"], room["descp"], begin + " 12:00:00", end + " 12:00:00",),
-    ]
+            (user_id, room_id, category_id, str(category["price"].split(".")[0]), weak, need_weak, str(get_stamp_by_time(begin + " 12:00:00")),str(get_stamp_by_time(end + " 12:00:00")),username,mobile,category["name"],room["descp"],begin + " 12:00:00",end + " 12:00:00",),
+        ]
     insert_order(data)
     orderid = max_order_id();
+
     print(category["price"])
     ding = str(float(category["price"]) * 0.2)
     money_data = [
@@ -299,6 +282,8 @@ def add_order():
     day_count = day/(60*60*24)
     print(day_count)
 
+
+
     room_money = str(float(category["price"]) * day_count)
     money_data1 = [
         (orderid, room_money, "2", "1",),
@@ -307,7 +292,6 @@ def add_order():
 
     print(orderid)
     return render_template('money_confirm.html', user=user, category=category, userinfo=userinfo, begin=begin, end=end, need_weak=need_weak, weak=weak, orderid=orderid, ding=ding, room_money=room_money)
-
 
 
 @user.route("/order", methods=['GET'], endpoint='order')

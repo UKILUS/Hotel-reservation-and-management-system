@@ -43,48 +43,49 @@
         <!--<td>{{ order.end }}</td>-->
         <!--</tr>-->
         <!--{% endfor %}-->
-        </tbody>
-    </table>
-</div>
-<div class="row" style="margin-top: 30px">
-    <table class="table">
-        <tr>
-            <th scope="row">In the best</th>
-            <td>
-                {{ begin_room }}
-            </td>
-        </tr>
-
-        <tr>
-            <th scope="row">In the worst</th>
-            <td>{{ end_room }}</td>
-        </tr>
-
-        </tbody>
-    </table>
-</div>
-
-<div class="row">
-    <div id="shouru" style="width: 100%;height: 300px">
-
+              <!--{% for order in orders %}-->
+                <!--<tr>-->
+                  <!--<th scope="row">{{ order.username }}</th>-->
+                  <!--<td>{{ order.category_name }}</td>-->
+                  <!--<td>{{ order.begin }}</td>-->
+                  <!--<td>{{ order.end }}</td>-->
+                <!--</tr>-->
+              <!--{% endfor %}-->
+            </table>
     </div>
-</div>
-<div class="row">
-    <div id="day_count" style="width: 100%;height: 300px">
+    <div class="row" style="margin-top: 30px">
+        <table class="table">
+                <tr>
+                  <th scope="row">入住最好</th>
+                  <td>{{ begin.room.name }}:{{ begin.room.descp }}</td>
+                </tr>
+            <tr>
+                  <th scope="row">入住最差</th>
+                  <td>{{ end.room.name }}:{{ end.room.descp }}</td>
+                </tr>
 
+              </tbody>
+            </table>
     </div>
-</div>
-<div class="row">
-    <div id="day_shuliang" style="width: 100%;height: 300px">
 
+    <div class="row">
+        <div id="shouru" style="width: 100%;height: 300px">
+
+        </div>
     </div>
-</div>
-
-<div class="row">
-    <div id="room_count" style="width: 100%;height: 300px">
-
+    <div class="row">
+        <div id="day_count" style="width: 100%;height: 300px">
+            123
+        </div>
     </div>
-</div>
+    <div class="row">
+        <div id="day_shuliang" style="width: 100%;height: 300px">
 
+        </div>
+    </div>
+    <div class="row">
+        <div id="room_count" style="width: 100%;height: 300px">
 
+        </div>
+    </div>
 {% endblock %}

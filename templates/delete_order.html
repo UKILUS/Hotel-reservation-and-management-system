@@ -12,28 +12,30 @@
         </h3>
 
         <div class="blog-post">
-          <h2 class="blog-post-title">Unbooking information</h2>
-          <p class="blog-post-meta">Name：{{ order.username }}</p>
-          <p class="blog-post-meta">Telephone：{{ order.mobile }}</p>
-          <p class="blog-post-meta">Time：{{ order.begin }}--{{ order.end }}</a></p>
-          <p class="blog-post-meta">Room：{{ order.category_name }}</p>
+          <h2 class="blog-post-title">Unsubscribe room information</h2>
+          <p class="blog-post-meta">Name:{{ order.username }}</p>
+          <p class="blog-post-meta">Telephone:{{ order.mobile }}</p>
+          <p class="blog-post-meta">Length:{{ order.begin }}--{{ order.end }}</a></p>
+          <p class="blog-post-meta">Room:{{ order.category_name }}</p>
             {% if order.status == "4" %}
-                <p class="blog-post-meta text-danger">Note your time within two days to unsubscribe, do not refund the deposit ！！！！！</p>
+                <p class="blog-post-meta text-danger">Note that you can cancel the reservation within two days without refunding the deposit{{ ding }}RMB！！！！！ Just refund the rent{{ room_money }}RMB</p>
             {% endif %}
 
           <hr>
-  <form method="post" action="/delete_order" id="myformid">
+
+            <form method="post" action="/delete_order" id="myformid">
                       <div class="form-group">
                         <label for="ding">The refund amount</label>
                         <input type="hidden" class="form-control" name="oid" value="{{ order.id }}">
                         {% if order.status == "4" %}
                             <input type="text" class="form-control" id="ding1" value="{{ room_money }}RMB" disabled>
                         {% else %}
-                            <input type="text" class="form-control" id="ding" value="{{ total }}RMB(Deposit + Room fee)" disabled>
+                            <input type="text" class="form-control" id="ding" value="{{ total }}RMB(Deposit + room fee)" disabled>
                         {% endif %}
 
+
                       </div>
-                      <button type="submit" class="btn btn-primary">submit</button>
+                      <button type="button" class="btn btn-primary" onclick="tijiao()">Submit</button>
                     </form>
 
         </div><!-- /.blog-post -->
@@ -47,15 +49,15 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                    <h4 class="modal-title">Confirm the refund</h4><!--Confirm the refund-->
+                    <h4 class="modal-title">A refund confirmation</h4><!--A refund confirmation-->
                 </div>
-                <div class="modal-body"><!--Confirm the refund-->
+                <div class="modal-body"><!--A refund confirmation-->
                     <img src="/static/img/login.png" width="300px" height="300px">
                     <h1 style="margin-top: 50px">Confirm the refund information below</h1>
                     {% if order.status == "4" %}
-                        <p> A refund:{{ room_money }}</p>
+                        <p> Refund:{{ room_money }}</p>
                     {% else %}
-                        <p> A refund:{{ total }}</p>
+                        <p> Refund:{{ total }}</p>
                     {% endif %}
                 </div>
                 <div class="modal-footer">
@@ -65,6 +67,7 @@
             </div>
         </div>
     </div>
+
 </main>
 <script>
     function tiiiii(){

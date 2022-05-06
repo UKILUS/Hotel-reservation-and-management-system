@@ -77,65 +77,41 @@ def base_admin():
     else:
         return redirect("/login")
 
+
 @admin.route("/boss_index", methods=['GET'], endpoint='boss_index')
 @admin_wapper
 def boss_index():
-    #Define the search fetch to be a parameter of search
-    search = request.args.get('search', '')
-    print(search)
-    # Set variable user,Gets the user in the session
     user = session.get('user')
-    #Determines if search is empty
-    if search is None or search == "":
-        #Define the kefang variable, call the get_all_kefang () method, and convert it to float
-        kefang = get_float(get_all_kefang()[0][0])
-        #Define the ding variable, call the get_all_ding () method, and convert it to float
-        ding = get_float(get_all_ding()[0][0])
-        # Define the ex variable, call the get_all_ex () method, and convert it to float
-        ex = get_float(get_all_ex()[0][0])
+    kefang = get_float(get_all_kefang()[0][0])
+    ding = get_float(get_all_ding()[0][0])
+    ex = get_float(get_all_ex()[0][0])
 
-    #If there is search, the value passed in search is called
-    else:
-        kefang = get_float(get_all_kefang_by_date(search)[0][0])
-        ding = get_float(get_all_ding_by_date(search)[0][0])
-        ex = get_float(get_all_ex_by_date(search)[0][0])
-
-    #Define the total variable and calculate the total amount
-    total = kefang + ding + ex
-
-    print(total)
     print(kefang)
     print(ding)
     print(ex)
+    total = kefang + ding + ex
+    print(total)
 
-    #Define the variable room_count to store the value of the call to the get_all_room_order_count () method
     room_count = get_all_room_order_count()
-    #Assign the value of room_count to I
     for i in range(len(room_count)):
         room_count[i]["room"] = get_room_by_id(room_count[i]["room_id"])
     begin = ""
     end = ""
-
-    #Determines whether room_count is a value greater than 1
     if len(room_count) > 1:
-        #Define the BEGIN variable to be the largest in the data dictionary
         begin = room_count[0]
-        # Define the BEGIN variable to be the smallest in the data dictionary
         end = room_count[-1]
-        #Define the variables begin_room and end_room and assign a value via get_category_by_id ()
-        begin_room = get_category_by_id(begin.get("room_id"))
-        end_room = get_category_by_id(end.get("room_id"))
+        print(begin)
+        print(end)
+    return render_template('boss_index.html', user=user, kefang=kefang, ding=ding, ex=ex, total=total, begin=begin,
+                           end=end)
 
-    return render_template('boss_index.html',user=user, kefang=kefang, ding=ding,ex=ex, total=total,begin_room=begin_room.get('name'),end_room=end_room.get('name'), search=search)
 
-#Define a method to convert STR values to float
 def get_float(str):
     try:
         if str:
             return float(str)
         else:
             return 0.0
-
     except Exception as e:
         print(e)
         return 0.0
@@ -144,25 +120,15 @@ def get_float(str):
 @admin.route("/admin_index", methods=['GET'], endpoint='admin_index')
 @admin_wapper
 def admin_index():
-    #Define a variable, user, and assign the user of the session
     user = session.get('user')
-    #Define a variable, orders, and assign a value to call get_all_order ()
     orders = get_all_order()
-    #Define search and assign a value to get search in the URL
     search = request.args.get("search", "")
     print(search)
-    #Determines if search is not empty
     if search != "":
-        #Redefine and assign to the variable orders, passing search into get_all_order_by_user ()
         orders = get_all_order_by_user(search)
-    #Assign the data transfer from Orders to I
     for i in range(len(orders)):
-        #Define the orders[][] data dictionary to get the values transmitted from the get_time_by_stamp () method
         orders[i]["begin"] = get_time_by_stamp(orders[i]["begin_time"])
         orders[i]["end"] = get_time_by_stamp(orders[i]["end_time"])
-        #Define the variable now to get the value transferred from the method get_now_stamp ()
-        now = get_now_stamp()
-        orders[i]["show"] = get_status_by_time(orders[i]["begin_time"], orders[i]["end_time"], now, orders[i]["status"])
     return render_template('admin_index.html', user=user, orders=orders)
 
 @admin.route("/current_order", methods=['GET'], endpoint='current_order')

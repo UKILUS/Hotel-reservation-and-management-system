@@ -30,7 +30,7 @@ def get_all_order():
         cur.execute(sql)
         # save search result in a variable and convert it to string
         res = cur.fetchall()
-        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
+        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status", "order_begin", "order_end"]
         # return the string
         return get_list_by_title(res, title)
 
