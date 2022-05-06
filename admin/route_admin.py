@@ -324,11 +324,15 @@ def morning_room_admin():
         #Define the variable zaojia to get and store the time of stamp type in get_stamp_by_time ()
         zaojia = get_stamp_by_time(orders[i]["weak_time"])
         print(zaojia)
+        print(current)
         #Determine the size of the order time and the present time. If the present time is greater than the order time, it will not be displayed
+
+        print("-----")
         if int(current) < int(zaojia):
             orders[i]["show"] = "1"
         else:
             orders[i]["show"] = "0"
+    print(orders)
     return render_template('morning_room_admin.html', user=user, orders=orders)
 
 @admin.route("/all_room_admin", methods=['GET'], endpoint='all_room_admin')
