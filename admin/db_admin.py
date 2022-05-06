@@ -30,7 +30,8 @@ def get_all_order():
         cur.execute(sql)
         # save search result in a variable and convert it to string
         res = cur.fetchall()
-        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status", "order_begin", "order_end"]
+        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time",
+                 "username", "mobile", "category_name", "room_descp", "status", "order_begin", "order_end"]
         # return the string
         return get_list_by_title(res, title)
 
@@ -43,7 +44,8 @@ def get_all_back_order(current):
         cur.execute(sql)
         # save search result in a variable and convert it to string
         res = cur.fetchall()
-        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
+        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time",
+                 "username", "mobile", "category_name", "room_descp", "status", "order_begin", "order_end"]
         # return the string
         return get_list_by_title(res, title)
 
@@ -56,7 +58,8 @@ def get_can_order_status_by_room(id):
         cur.execute(sql)
         # save search result in a variable and convert it to string
         res = cur.fetchall()
-        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
+        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time",
+                 "username", "mobile", "category_name", "room_descp", "status", "order_begin", "order_end"]
         # return the string
         return get_list_by_title(res, title)
 
@@ -69,7 +72,8 @@ def get_all_morning_order():
         cur.execute(sql)
         # save search result in a variable and convert it to string
         res = cur.fetchall()
-        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
+        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time",
+                 "username", "mobile", "category_name", "room_descp", "status", "order_begin", "order_end"]
         # return the string
         return get_list_by_title(res, title)
 
@@ -82,7 +86,8 @@ def get_all_order_by_user(username):
         cur.execute(sql)
         # save search result in a variable and convert it to string
         res = cur.fetchall()
-        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
+        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time",
+                 "username", "mobile", "category_name", "room_descp", "status", "order_begin", "order_end"]
         # return the string
         return get_list_by_title(res, title)
 
@@ -166,7 +171,8 @@ def get_status1_by_room(id, current):
         cur.execute(sql)
         # save search result in a variable and convert it to string
         res = cur.fetchall()
-        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
+        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time",
+                 "username", "mobile", "category_name", "room_descp", "status", "order_begin", "order_end"]
         # return the string
         return get_list_by_title(res, title)
 
@@ -179,7 +185,8 @@ def get_status2_by_room(id, current):
         cur.execute(sql)
         # save search result in a variable and convert it to string
         res = cur.fetchall()
-        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
+        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time",
+                 "username", "mobile", "category_name", "room_descp", "status", "order_begin", "order_end"]
         # return the string
         return get_list_by_title(res, title)
 
@@ -192,7 +199,8 @@ def get_status3_by_room(id, current):
         cur.execute(sql)
         # save search result in a variable and convert it to string
         res = cur.fetchall()
-        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
+        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time",
+                 "username", "mobile", "category_name", "room_descp", "status", "order_begin", "order_end"]
         # return the string
         return get_list_by_title(res, title)
 
@@ -205,7 +213,8 @@ def get_order_by_id(id):
         cur.execute(sql)
         # save search result in a variable and convert it to string
         res = cur.fetchall()
-        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
+        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time",
+                 "username", "mobile", "category_name", "room_descp", "status", "order_begin", "order_end"]
         # return the string
         return get_dict_by_title(res, title)
 
@@ -218,7 +227,8 @@ def get_all_order_by_roomid(id):
         cur.execute(sql)
         # save search result in a variable and convert it to string
         res = cur.fetchall()
-        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
+        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time",
+                 "username", "mobile", "category_name", "room_descp", "status", "order_begin", "order_end"]
         # return the string
         return get_list_by_title(res, title)
 
@@ -399,6 +409,7 @@ def get_order_by_bengin_and_end(begin, end):
         cur.execute(sql)
         # save search result in a variable and convert it to string
         res = cur.fetchall()
-        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
+        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time",
+                 "username", "mobile", "category_name", "room_descp", "status", "order_begin", "order_end"]
         # return the string
         return get_list_by_title(res, title)

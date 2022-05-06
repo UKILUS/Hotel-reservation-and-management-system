@@ -20,7 +20,6 @@ def login_select_email(email):
         # return the string
         return res
 
-
 # For login(sign-in) Page
 def login_select_username(username, is_admin):
     with UseDatebase(dbconfig) as cur:

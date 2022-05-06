@@ -17,10 +17,10 @@
                   <th scope="row">{{ room.category.name }}</th>
                   <td>{{ room.name }}</td>
 
-                    {% if room.status=="No reservation" %}
-                    <td bgcolor="#A6FFA6"></td>
+                    {% if room.status=="0" %}
+                    <td bgcolor="#A6FFA6">{{room.status}}</td>
                     {% else %}
-                    <td bgcolor="#FFB5B5"></td>
+                    <td bgcolor="#FFB5B5">{{room.status}}</td>
                      {% endif %}
 
                 </tr>

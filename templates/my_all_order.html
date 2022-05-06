@@ -24,12 +24,13 @@
               <a class="btn btn-primary" href="/delay_time?rid={{ order.id }}">Increase stay time</a>
             {% elif order.status == "4" or order.status == "5" %}
               <a class="btn btn-primary" href="/delete_order?rid={{ order.id }}">Unsubscribe</a>
+             {% elif order.status == "2"%}
+              <a class="btn btn-primary" href="/pay_order?rid={{ order.id }}">Pay order</a>
             {% elif order.status == "1" %}
               <a class="btn btn-primary" href="/#">Please check at the Front Desk</a>
             {% else %}
               <a class="btn btn-primary" href="/">Complete Return to Home Page</a>
             {% endif %}
-
           </div>
         </div>
         <hr>

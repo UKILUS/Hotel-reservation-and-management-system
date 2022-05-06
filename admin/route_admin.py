@@ -273,13 +273,13 @@ def need_back_admin():
         # paomian = request.form.get("paomian", "")
         # riyongpin = request.form.get("riyongpin", "")
 
-        # order = get_order_by_id(order_id)
-        # print(order["price"])
-        # ding = str(float(order["price"]) * 0.8)
-        # money_data = [
-        #     (order["id"], ding, "2", "1",),
-        # ]
-        # insert_order_money(money_data)
+        order = get_order_by_id(order_id)
+        print(order["price"])
+        ding = str(float(order["price"]) * 0.8)
+        money_data = [
+            (order["id"], ding, "2", "1",),
+        ]
+        insert_order_money(money_data)
 
         #Call the method to modify the order status
         update_order_back_by_id(order_id, get_now_stamp(), "2")
