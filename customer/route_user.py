@@ -271,6 +271,7 @@ def add_order():
     orderid = max_order_id();
 
     print(category["price"])
+
     ding = str(float(category["price"]) * 0.2)
     money_data = [
         (orderid, ding, "1", "1",),
@@ -285,13 +286,15 @@ def add_order():
 
 
     room_money = str(float(category["price"]) * day_count)
+    rooms_moneys = str(float(room_money)+float(ding))
+    all_shows_money=room_money+' + Deposit:￡'+ding
     money_data1 = [
         (orderid, room_money, "2", "1",),
     ]
     insert_order_money(money_data1)
 
     print(orderid)
-    return render_template('money_confirm.html', user=user, category=category, userinfo=userinfo, begin=begin, end=end, need_weak=need_weak, weak=weak, orderid=orderid, ding=ding, room_money=room_money)
+    return render_template('money_confirm.html', day_count=day_count,user=user, category=category, userinfo=userinfo, begin=begin, end=end, need_weak=need_weak, weak=weak, orderid=orderid, ding=ding, room_money=room_money,all_shows_money=all_shows_money,rooms_moneys=rooms_moneys)
 
 
 @user.route("/order", methods=['GET'], endpoint='order')

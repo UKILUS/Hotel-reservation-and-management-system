@@ -44,7 +44,7 @@
                               <input type="text" class="form-control" value="{{end}}" disabled>
                             </div>
                               <div class="col">
-                              <input type="text" class="form-control" name="end" id="days" value="{{count_days}}" disabled>
+                              <input type="text" class="form-control" name="end" id="days" value="{{day_count}}" disabled>
                             </div>
                           </div>
                         <small id="emailHelp" class="form-text text-muted">Check-in time is 12:00 on the day of departure and departure time is 12:00 on the day of departure.</small>
@@ -70,7 +70,7 @@
                       <hr>
                       <div class="form-group">
                         <label for="price" style="color: red">down payment</label>
-                        <input type="text" class="form-control" id="price" name="price" aria-describedby="price" disabled value="{{ ding }}RMB">
+                        <input type="text" class="form-control" id="price" name="price" aria-describedby="price" disabled value="￡{{rooms_moneys}} = Rooms price:￡{{ all_shows_money }}">
                       </div>
 
                       <a class="btn btn-primary" href="/order?id={{ orderid }}&status=1">submit</a>

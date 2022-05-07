@@ -18,7 +18,7 @@
           <p class="blog-post-meta">Length:{{ order.begin }}--{{ order.end }}</a></p>
           <p class="blog-post-meta">Room:{{ order.category_name }}</p>
             {% if order.status == "4" %}
-                <p class="blog-post-meta text-danger">Note that you can cancel the reservation within two days without refunding the deposit{{ ding }}RMB！！！！！ Just refund the rent{{ room_money }}RMB</p>
+                <p class="blog-post-meta text-danger">Note that you can cancel the reservation within two days without refunding the deposit￡{{ ding }}!!! Just refund the rent￡{{ room_money }}</p>
             {% endif %}
 
           <hr>
@@ -28,9 +28,9 @@
                         <label for="ding">The refund amount</label>
                         <input type="hidden" class="form-control" name="oid" value="{{ order.id }}">
                         {% if order.status == "4" %}
-                            <input type="text" class="form-control" id="ding1" value="{{ room_money }}RMB" disabled>
+                            <input type="text" class="form-control" id="ding1" value="{{ room_money }}￡" disabled>
                         {% else %}
-                            <input type="text" class="form-control" id="ding" value="{{ total }}RMB(Deposit + room fee)" disabled>
+                            <input type="text" class="form-control" id="ding" value="{{ total }}￡(Deposit + room fee)" disabled>
                         {% endif %}
 
 
