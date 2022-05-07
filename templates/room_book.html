@@ -8,36 +8,36 @@
               <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-purple rounded shadow-sm">
                 <img class="mr-3" src="/static/img/login.png" alt="" width="48" height="48">
                 <div class="lh-100">
-                  <h6 class="mb-0 text-white lh-100">确认订单</h6>
+                  <h6 class="mb-0 text-white lh-100">Make sure the order</h6>
                   <small>in</small>
                 </div>
               </div>
               <div class="my-3 p-3 bg-white rounded shadow-sm">
-                <h6 class="border-bottom border-gray pb-2 mb-0">请填写信息</h6>
+                <h6 class="border-bottom border-gray pb-2 mb-0">Please fill in the information</h6>
                 <div class="media text-muted pt-3">
                   <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"/><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
                   <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                    <strong class="d-block text-gray-dark">@入住人信息</strong>
+                    <strong class="d-block text-gray-dark">@Occupant information</strong>
                 </div>
                 <div class="media text-muted pt-3">
                   <form method="post" action="add_order">
                       <div class="form-group">
-                        <label for="roomStyle"> 姓名</label>
+                        <label for="roomStyle"> The name</label>
                         <input type="text" class="form-control" id="username" name="username" aria-describedby="roomStyle" value="{{ user }}">
                       </div>
                       <div class="form-group">
-                        <label for="tele">电话</label>
+                        <label for="tele">The phone</label>
                         <input type="hidden" name="room_id" value="{{ room.id }}">
                         <input type="hidden" name="user_id" value="{{ userinfo.id }}">
                         <input type="hidden" name="category_id" value="{{ category.id }}">
                         <input type="text" class="form-control" id="tele" name="mobile" aria-describedby="tele" value="{{ userinfo.mobile }}">
                       </div>
                       <div class="form-group">
-                        <label for="roomStyle"> 房间类型</label>
+                        <label for="roomStyle"> The room type</label>
                         <input type="text" class="form-control" id="roomStyle" aria-describedby="roomStyle" value="{{ category.name }}" name="category_name">
                       </div>
                       <div class="form-group">
-                        <label for="begin">入住时长</label>
+                        <label for="begin">The check-in time</label>
                           <div class="row">
                             <div class="col">
                               <input type="text" class="form-control" name="begin" id="begin">
@@ -47,17 +47,17 @@
                               <input type="text" class="form-control" name="end" id="end">
                             </div>
                           </div>
-                        <small id="emailHelp" class="form-text text-muted">入住时间为当天12点，离开时间为离开当天12点</small>
+                        <small id="emailHelp" class="form-text text-muted">Check-in time is 12:00 on the day and departure time is 12:00 on the day of departure</small>
                       </div>
                       <div class="form-group">
-                        <label for="weak">叫醒服务时间</label>
+                        <label for="weak">Wake-up time</label>
                         <input type="text" class="form-control" id="weak" name="weak" readonly>
                       </div>
                       <div class="form-group form-check">
                         <input type="checkbox" class="form-check-input" id="exampleCheck1" name="need_weak">
-                        <label class="form-check-label" for="exampleCheck1">是否需要叫醒服务</label>
+                        <label class="form-check-label" for="exampleCheck1">Would you like a wake-up call</label>
                       </div>
-                      <button type="submit" class="btn btn-primary">提交</button>
+                      <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
               </div>
