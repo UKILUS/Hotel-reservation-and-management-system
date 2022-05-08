@@ -4,7 +4,6 @@ class HttpCode(object):
     success = 0
     error = 1
 
-
 def result(code=HttpCode.success, message='', data=None, kwargs=None, count=None):
     json_dict = {'data': data, 'code': code, 'message': message, 'count':count}
     print(json_dict)

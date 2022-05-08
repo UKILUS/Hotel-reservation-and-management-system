@@ -49,6 +49,7 @@ def get_all_back_order(current):
         # return the string
         return get_list_by_title(res, title)
 
+
 def get_can_order_status_by_room(id):
     with UseDatebase(dbconfig) as cur:
         # Splicing and executing SQL statements

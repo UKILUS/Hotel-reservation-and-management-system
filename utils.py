@@ -115,6 +115,7 @@ def get_int_status_by_time(begin, end, now, status):
     else:
         return "6"
 
+
 def get_status_by_room(begin, end, now, status):
     if status=="-1":
         return "subscription cancellation"

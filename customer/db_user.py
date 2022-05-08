@@ -373,7 +373,6 @@ def update_order_status_by_id(id, mystatus):
 def update_order_status_2_by_id(id):
     with UseDatebase(dbconfig) as cur:
         # Splicing and executing SQL statements
-
         sql = "UPDATE `order` SET status=2 WHERE id=\"" + id + "\""
         print(sql)
         # Execute SQL statement

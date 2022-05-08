@@ -105,7 +105,6 @@ def boss_index():
     return render_template('boss_index.html', user=user, kefang=kefang, ding=ding, ex=ex, total=total, begin=begin,
                            end=end)
 
-
 def get_float(str):
     try:
         if str:
