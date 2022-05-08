@@ -511,11 +511,9 @@ def pay_confirm():
 
 @user.route("/all_rooms", methods=['GET', 'POST'], endpoint='all_rooms')
 def all_rooms():
-
     searchkey = request.args.get("searchkey", "")
     # Define a mtype, searchkey, to store information about the mtype retrieved from the URL
     mtype = request.args.get("mtype", "")
-    # Define a variable, user, to store the user in the session
     user = session.get('user')
     #Define the variable all_categories and call the method to store all the categories information
     all_categories = get_all_category()

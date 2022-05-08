@@ -318,7 +318,6 @@ def get_all_order_by_user(user_id):
         # return the string
         return get_list_by_title(res, title)
 
-
 def get_order_ex_sum_by_id(id):
     with UseDatebase(dbconfig) as cur:
         # Splicing and executing SQL statements
@@ -329,10 +328,11 @@ def get_order_ex_sum_by_id(id):
         # save search result in a variable and convert it to string
         res = cur.fetchall()
         print(res)
+
         if res[0][0] == None:
             return 0
         else:
-            print("order" + id + "extra price" +  res[0][0])
+            print("order" + id + "ex price" +  res[0][0])
             # return the string
             return res[0][0]
 
@@ -480,7 +480,8 @@ def get_status2_by_room(id, current):
         cur.execute(sql)
         # save search result in a variable and convert it to string
         res = cur.fetchall()
-        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time", "username", "mobile", "category_name","room_descp","status"]
+        title = ["id", "user_id", "room_id", "category_id", "price", "weak_time", "need_weak", "begin_time", "end_time",
+                 "username", "mobile", "category_name", "room_descp", "status", "order_begin", "order_end"]
         # return the string
         return get_list_by_title(res, title)
 
